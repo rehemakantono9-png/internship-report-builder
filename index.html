@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Internship Report Builder | AI-Powered Report Generator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Remmie Komm Hub - Professional Internship Report Builder</title>
     <style>
         * {
             margin: 0;
@@ -12,9 +12,9 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f0f2f5;
-            color: #1a2a3a;
+            font-family: 'Times New Roman', Georgia, serif;
+            background: #e8e8e8;
+            color: #1a1a1a;
             line-height: 1.5;
         }
 
@@ -26,24 +26,23 @@
             position: sticky;
             top: 0;
             z-index: 100;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            font-family: 'Segoe UI', Arial, sans-serif;
         }
 
         .header h1 {
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            flex-wrap: wrap;
             justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
         }
 
         .premium-badge {
-            background: gold;
+            background: #ffc107;
             color: #1a2a3a;
             padding: 0.3rem 0.8rem;
             border-radius: 20px;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             font-weight: bold;
         }
 
@@ -51,18 +50,40 @@
             background: #ffc107;
             color: #1a2a3a;
             border: none;
-            padding: 0.4rem 1rem;
-            border-radius: 25px;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
             cursor: pointer;
             font-weight: bold;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
         }
 
-        /* Container */
+        /* Progress Bar */
+        .progress-container {
+            max-width: 800px;
+            margin: 0.5rem auto 0;
+            background: rgba(255,255,255,0.3);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 6px;
+            background: #ffc107;
+            width: 0%;
+            transition: width 0.3s;
+        }
+
+        .step-indicator {
+            text-align: center;
+            font-size: 0.75rem;
+            margin-top: 0.3rem;
+        }
+
+        /* Layout */
         .container {
             max-width: 1400px;
-            margin: 0 auto;
-            padding: 1.5rem;
+            margin: 1.5rem auto;
+            padding: 0 1.5rem;
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 1.5rem;
@@ -77,27 +98,40 @@
         /* Cards */
         .card {
             background: white;
-            border-radius: 16px;
+            border-radius: 12px;
             padding: 1.5rem;
             margin-bottom: 1.5rem;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
 
         .card h2 {
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             margin-bottom: 1rem;
-            color: #0d2b3e;
             border-left: 4px solid #1a4a6f;
             padding-left: 0.8rem;
+            font-weight: bold;
+        }
+
+        .card h3 {
+            font-size: 1rem;
+            margin: 0.8rem 0 0.5rem;
+            color: #1a4a6f;
         }
 
         /* Forms */
+        label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.8rem;
+            margin: 0.8rem 0 0.3rem;
+        }
+
         input, select, textarea {
             width: 100%;
-            padding: 0.7rem;
-            margin-bottom: 0.8rem;
-            border: 1px solid #ddd;
-            border-radius: 8px;
+            padding: 0.6rem;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-family: inherit;
             font-size: 0.9rem;
         }
 
@@ -106,20 +140,13 @@
             border-color: #1a4a6f;
         }
 
-        label {
-            font-weight: 600;
-            font-size: 0.85rem;
-            display: block;
-            margin-bottom: 0.3rem;
-        }
-
         /* Buttons */
         .btn {
             background: #1a4a6f;
             color: white;
             border: none;
-            padding: 0.7rem 1.2rem;
-            border-radius: 8px;
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
             cursor: pointer;
             font-weight: bold;
             transition: all 0.2s;
@@ -127,7 +154,6 @@
 
         .btn:hover {
             background: #0d2b3e;
-            transform: translateY(-1px);
         }
 
         .btn-premium {
@@ -141,51 +167,65 @@
             color: #1a4a6f;
         }
 
-        /* Logbook Entry */
-        .log-entry {
-            background: #f8f9fa;
-            border-radius: 12px;
-            padding: 1rem;
-            margin-bottom: 1rem;
-            border-left: 3px solid #1a4a6f;
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1rem;
+            gap: 0.5rem;
         }
 
-        .log-date {
-            font-weight: bold;
-            color: #1a4a6f;
+        .add-btn {
+            background: #28a745;
+            color: white;
+            width: 100%;
+            margin-top: 0.5rem;
         }
 
-        .delete-btn {
+        .remove-btn {
             background: #dc3545;
             color: white;
             border: none;
-            padding: 0.2rem 0.6rem;
+            padding: 0.3rem 0.6rem;
             border-radius: 4px;
             cursor: pointer;
             font-size: 0.7rem;
         }
 
+        /* Dynamic Entries */
+        .entry-card {
+            background: #f9f9f9;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .staff-entry, .theory-entry, .appendix-entry {
+            background: #f9f9f9;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Step Visibility */
+        .step {
+            display: none;
+        }
+
+        .step.active {
+            display: block;
+        }
+
         /* Report Preview */
         .report-preview {
             background: white;
-            border-radius: 16px;
             padding: 2rem;
-            max-height: 80vh;
+            max-height: 85vh;
             overflow-y: auto;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-        }
-
-        .report-preview h2 {
-            color: #0d2b3e;
-            margin-top: 1.5rem;
-            border-bottom: 2px solid #1a4a6f;
-            padding-bottom: 0.3rem;
-        }
-
-        .activity-entry {
-            margin-bottom: 1.5rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid #eee;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            font-family: 'Times New Roman', Georgia, serif;
         }
 
         /* Modal */
@@ -208,48 +248,24 @@
 
         .modal-content {
             background: white;
-            padding: 2rem;
-            border-radius: 20px;
-            max-width: 500px;
+            padding: 1.5rem;
+            border-radius: 12px;
+            max-width: 450px;
             width: 90%;
             text-align: center;
         }
 
-        .feature-list {
-            text-align: left;
-            margin: 1rem 0;
-            padding-left: 1.5rem;
-        }
-
-        .feature-list li {
+        .helper-text {
+            font-size: 0.75rem;
+            color: #666;
             margin: 0.5rem 0;
-        }
-
-        /* Alert */
-        .alert {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: #28a745;
-            color: white;
-            padding: 0.8rem 1.5rem;
-            border-radius: 8px;
-            animation: fadeOut 3s forwards;
-            z-index: 1000;
-        }
-
-        @keyframes fadeOut {
-            0% { opacity: 1; }
-            70% { opacity: 1; }
-            100% { opacity: 0; visibility: hidden; }
+            font-style: italic;
         }
 
         .flex-between {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
-            gap: 0.5rem;
         }
 
         .status-badge {
@@ -259,116 +275,255 @@
             font-size: 0.7rem;
         }
 
-        .premium-only {
-            opacity: 0.6;
-            pointer-events: none;
+        /* Alert */
+        .alert {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #28a745;
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            animation: fadeOut 3s forwards;
+            z-index: 1000;
+            font-size: 0.85rem;
         }
 
-        .premium-unlocked .premium-only {
-            opacity: 1;
-            pointer-events: auto;
+        @keyframes fadeOut {
+            0% { opacity: 1; }
+            70% { opacity: 1; }
+            100% { opacity: 0; visibility: hidden; }
+        }
+
+        .warning {
+            background: #ffc107;
+            color: #1a2a3a;
         }
     </style>
 </head>
 <body>
     <div class="header">
         <h1>
-            <span>📝 Internship Report Builder</span>
+            <span>🔷 Remmie Komm Hub - Professional Internship Report Builder</span>
             <div>
-                <span id="premiumStatus" class="status-badge">⭐ Free Trial</span>
-                <button id="upgradeHeaderBtn" class="upgrade-btn">Upgrade to Premium</button>
+                <span id="premiumStatus" class="premium-badge">⭐ Free Trial</span>
+                <button id="upgradeBtn" class="upgrade-btn">Upgrade</button>
             </div>
         </h1>
-        <p>AI-powered • Fill logbook → Auto-generate complete report</p>
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+        <div class="step-indicator" id="stepIndicator">Step 1 of 10</div>
     </div>
 
     <div class="container">
-        <!-- LEFT PANEL: INPUTS -->
+        <!-- LEFT PANEL: FORM -->
         <div class="left-panel">
-            <!-- Student Profile -->
-            <div class="card">
-                <h2>👨‍🎓 Student Profile</h2>
-                <label>Full Name</label>
-                <input type="text" id="studentName" placeholder="e.g., Kantono Rehema">
-                <label>Registration Number</label>
-                <input type="text" id="studentId" placeholder="e.g., 123-345587-374686">
-                <label>University</label>
-                <input type="text" id="university" placeholder="e.g., Islamic University in Uganda">
-                <label>Programme</label>
-                <input type="text" id="programme" placeholder="e.g., Bachelor of Mass Communication">
-                <label>Academic Supervisor</label>
-                <input type="text" id="supervisor" placeholder="e.g., Dr. Sarah Mukasa">
-            </div>
-
-            <!-- Organization Details -->
-            <div class="card">
-                <h2>🏢 Organization Details</h2>
-                <label>Organization Name</label>
-                <input type="text" id="orgName" placeholder="e.g., Daily Monitor">
-                <label>Department</label>
-                <input type="text" id="department" placeholder="e.g., News Department">
-                <label>Location</label>
-                <input type="text" id="orgLocation" placeholder="e.g., Mbale, Uganda">
-                <label>Workplace Supervisor</label>
-                <input type="text" id="workSupervisor" placeholder="e.g., Mr. John Okello">
-                <label>Internship Period</label>
-                <div style="display: flex; gap: 0.5rem;">
-                    <input type="month" id="startDate" placeholder="Start">
-                    <input type="month" id="endDate" placeholder="End">
+            
+            <!-- Step 1: Student Details -->
+            <div id="step1" class="step active">
+                <div class="card">
+                    <h2>👨‍🎓 Student Information</h2>
+                    <label>Full Name</label>
+                    <input type="text" id="studentName" placeholder="e.g., Kitata Agnes">
+                    <label>Registration Number</label>
+                    <input type="text" id="studentId" placeholder="e.g., 417-023071-02815">
+                    <label>University</label>
+                    <input type="text" id="university" value="Islamic University in Uganda" placeholder="Islamic University in Uganda">
+                    <label>Faculty</label>
+                    <input type="text" id="faculty" placeholder="e.g., Faculty of Arts and Social Sciences">
+                    <label>Department</label>
+                    <input type="text" id="department" placeholder="e.g., Social Work and Social Administration">
+                    <label>Programme</label>
+                    <input type="text" id="programme" placeholder="e.g., Bachelor of Social Work and Social Administration">
+                    <label>Academic Supervisor Name</label>
+                    <input type="text" id="academicSupervisor" placeholder="e.g., Mr. Walugembe Shafik">
+                    <div class="button-group">
+                        <button class="btn next-btn" onclick="nextStep()">Next →</button>
+                    </div>
                 </div>
             </div>
 
-            <!-- Daily Logbook -->
-            <div class="card" id="logbookSection">
-                <div class="flex-between">
+            <!-- Step 2: Organization Details -->
+            <div id="step2" class="step">
+                <div class="card">
+                    <h2>🏢 Organization Information</h2>
+                    <label>Organization Name</label>
+                    <input type="text" id="orgName" placeholder="e.g., Uganda Red Cross Society">
+                    <label>Branch/Department</label>
+                    <input type="text" id="branch" placeholder="e.g., Kampala West Branch">
+                    <label>Organization Address</label>
+                    <input type="text" id="orgAddress" placeholder="e.g., Plot 551/555 Rubaga Road, Kampala">
+                    <label>Workplace Supervisor Name</label>
+                    <input type="text" id="workSupervisor" placeholder="e.g., Mr. Izaak A. Prince Kimbugwe">
+                    <label>Supervisor Position</label>
+                    <input type="text" id="supervisorPosition" placeholder="e.g., Acting Branch Manager">
+                    <label>Internship Period</label>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <input type="date" id="startDate">
+                        <input type="date" id="endDate">
+                    </div>
+                    <div class="button-group">
+                        <button class="btn prev-btn" onclick="prevStep()">← Back</button>
+                        <button class="btn next-btn" onclick="nextStep()">Next →</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 3: Organization Background (Extended) -->
+            <div id="step3" class="step">
+                <div class="card">
+                    <h2>📜 Organization Background</h2>
+                    <label>Brief History of Organization</label>
+                    <textarea id="orgHistory" rows="4" placeholder="Describe the history of the organization..."></textarea>
+                    <label>Vision Statement</label>
+                    <input type="text" id="orgVision" placeholder="e.g., To deliver quality humanitarian assistance">
+                    <label>Mission Statement</label>
+                    <input type="text" id="orgMission" placeholder="e.g., To save lives, support livelihoods, promote human dignity">
+                    <label>Core Values (comma separated)</label>
+                    <input type="text" id="orgValues" placeholder="e.g., Humanity, Impartiality, Neutrality, Independence">
+                    <label>Service Principles (comma separated)</label>
+                    <input type="text" id="orgPrinciples" placeholder="e.g., Voluntary service, Unity, Universality">
+                    <div class="button-group">
+                        <button class="btn prev-btn" onclick="prevStep()">← Back</button>
+                        <button class="btn next-btn" onclick="nextStep()">Next →</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 4: Department & Staff -->
+            <div id="step4" class="step">
+                <div class="card">
+                    <h2>👥 Department & Staff</h2>
+                    <label>Department of Attachment</label>
+                    <input type="text" id="deptName" placeholder="e.g., Youth and Organisation Development Department">
+                    <label>Department Head</label>
+                    <input type="text" id="deptHead" placeholder="e.g., Mr. Izaak A. Prince Kimbugwe">
+                    <label>Role of the Department</label>
+                    <textarea id="deptRole" rows="3" placeholder="Describe the department's responsibilities..."></textarea>
+                    
+                    <h3>Agency Workers & Responsibilities</h3>
+                    <div id="staffList"></div>
+                    <button class="add-btn" onclick="addStaff()">+ Add Staff Member</button>
+                    
+                    <label>Role of Agency Supervisor</label>
+                    <textarea id="supervisorRole" rows="2" placeholder="Describe the supervisor's role..."></textarea>
+                    
+                    <div class="button-group">
+                        <button class="btn prev-btn" onclick="prevStep()">← Back</button>
+                        <button class="btn next-btn" onclick="nextStep()">Next →</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 5: Daily Logbook -->
+            <div id="step5" class="step">
+                <div class="card">
                     <h2>📓 Daily Logbook</h2>
-                    <span id="logCount" class="status-badge">0 entries</span>
-                </div>
-                <p style="font-size: 0.8rem; color: #666; margin-bottom: 1rem;">Add what you did each day - AI will convert to report chapters</p>
-                
-                <div id="logEntriesList"></div>
-                
-                <div id="addLogForm">
-                    <label>Date</label>
-                    <input type="date" id="logDate">
-                    <label>Activity / Task</label>
-                    <input type="text" id="logActivity" placeholder="e.g., Editorial meeting, Story writing">
-                    <label>What did you do? (Detailed)</label>
-                    <textarea id="logDescription" rows="2" placeholder="Describe what you actually did..."></textarea>
-                    <label>Skills developed (comma separated)</label>
-                    <input type="text" id="logSkills" placeholder="e.g., listening, writing, critical thinking">
-                    <label>Challenges faced & solutions</label>
-                    <textarea id="logChallenges" rows="2" placeholder="What challenges? How did you overcome them?"></textarea>
-                    <button id="addLogBtn" class="btn">+ Add Log Entry</button>
-                </div>
-                
-                <div id="premiumLimitWarning" style="display: none; margin-top: 1rem; padding: 0.8rem; background: #fff3cd; border-radius: 8px; text-align: center;">
-                    ⭐ Free trial: 5 log entries only. <button id="upgradeFromLimitBtn" class="upgrade-btn" style="margin-left: 0.5rem;">Upgrade to Premium</button> for unlimited entries.
+                    <p class="helper-text">Record your daily activities - these will become Chapter 3 of your report</p>
+                    <div id="logbookList"></div>
+                    <button class="add-btn" onclick="addLogEntry()">+ Add Day</button>
+                    <div class="button-group">
+                        <button class="btn prev-btn" onclick="prevStep()">← Back</button>
+                        <button class="btn next-btn" onclick="nextStep()">Next →</button>
+                    </div>
                 </div>
             </div>
 
-            <!-- Generate Report Button -->
-            <div class="card">
-                <button id="generateReportBtn" class="btn btn-premium" style="width: 100%; padding: 1rem; font-size: 1.1rem;">✨ Generate Full Report from Logbook</button>
-                <p style="font-size: 0.75rem; color: #666; margin-top: 0.5rem; text-align: center;">Premium feature • Turns your logbook entries into complete Chapters 3, 4, 5</p>
+            <!-- Step 6: Skills & Learning -->
+            <div id="step6" class="step">
+                <div class="card">
+                    <h2>💪 Skills & Learning</h2>
+                    <label>Knowledge Acquired</label>
+                    <textarea id="knowledgeGained" rows="4" placeholder="List the knowledge you gained..."></textarea>
+                    <label>Skills Gained (comma separated)</label>
+                    <input type="text" id="skillsGained" placeholder="e.g., Self-awareness, Leadership, Communication">
+                    <label>Theories Applied from Class (with explanation)</label>
+                    <div id="theoriesList"></div>
+                    <button class="add-btn" onclick="addTheory()">+ Add Theory</button>
+                    <label>Personal Contribution to Organization</label>
+                    <textarea id="personalContribution" rows="3" placeholder="How did you contribute to the organization?"></textarea>
+                    <div class="button-group">
+                        <button class="btn prev-btn" onclick="prevStep()">← Back</button>
+                        <button class="btn next-btn" onclick="nextStep()">Next →</button>
+                    </div>
+                </div>
             </div>
+
+            <!-- Step 7: Challenges & Solutions -->
+            <div id="step7" class="step">
+                <div class="card">
+                    <h2>⚠️ Challenges & Solutions</h2>
+                    <label>Challenges Within the Organization</label>
+                    <textarea id="internalChallenges" rows="3" placeholder="Challenges encountered inside the organization..."></textarea>
+                    <label>Challenges Outside the Organization (with clients/community)</label>
+                    <textarea id="externalChallenges" rows="3" placeholder="Challenges encountered outside..."></textarea>
+                    <label>How Did You Overcome These Challenges?</label>
+                    <textarea id="challengeSolutions" rows="3" placeholder="Describe your solutions..."></textarea>
+                    <div class="button-group">
+                        <button class="btn prev-btn" onclick="prevStep()">← Back</button>
+                        <button class="btn next-btn" onclick="nextStep()">Next →</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 8: Recommendations -->
+            <div id="step8" class="step">
+                <div class="card">
+                    <h2>📝 Recommendations</h2>
+                    <label>Recommendations to the University</label>
+                    <textarea id="recUniversity" rows="3" placeholder="What should the university improve?"></textarea>
+                    <label>Recommendations to the Host Organization</label>
+                    <textarea id="recOrganization" rows="3" placeholder="What should the organization improve?"></textarea>
+                    <label>Recommendations to Future Students</label>
+                    <textarea id="recStudents" rows="2" placeholder="Advice for future interns..."></textarea>
+                    <div class="button-group">
+                        <button class="btn prev-btn" onclick="prevStep()">← Back</button>
+                        <button class="btn next-btn" onclick="nextStep()">Next →</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 9: Appendices -->
+            <div id="step9" class="step">
+                <div class="card">
+                    <h2>🖼️ Appendices (Images/Figures)</h2>
+                    <p class="helper-text">Add images or figures with descriptions</p>
+                    <div id="appendicesList"></div>
+                    <button class="add-btn" onclick="addAppendix()">+ Add Appendix</button>
+                    <div class="button-group">
+                        <button class="btn prev-btn" onclick="prevStep()">← Back</button>
+                        <button class="btn next-btn" onclick="nextStep()">Next →</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 10: Generate Report -->
+            <div id="step10" class="step">
+                <div class="card">
+                    <h2>🤖 Generate Your Report</h2>
+                    <p class="helper-text">Click below to generate a complete professional internship report matching Islamic University in Uganda format.</p>
+                    <button id="generateReportBtn" class="btn" style="width:100%; padding:0.8rem; background:#28a745;">✨ Generate Complete Report</button>
+                    <div id="generationStatus" style="margin-top:1rem;"></div>
+                    <div class="button-group">
+                        <button class="btn prev-btn" onclick="prevStep()">← Back</button>
+                        <button class="btn next-btn" onclick="nextStep()">Next →</button>
+                    </div>
+                </div>
+            </div>
+
         </div>
 
         <!-- RIGHT PANEL: REPORT PREVIEW -->
         <div class="right-panel">
             <div class="report-preview" id="reportPreview">
-                <h1 style="text-align: center;">INTERNSHIP REPORT</h1>
-                <p style="text-align: center;" id="previewStudentName">Student Name</p>
-                <p style="text-align: center;" id="previewUniversity">University</p>
-                <hr>
                 <div id="reportContent">
-                    <p style="color: #999; text-align: center;">Fill in your details and add logbook entries. Click "Generate Report" to see your professional report here.</p>
+                    <p style="text-align:center; color:#999;">Complete all steps and click "Generate Report" to see your professional internship report here.</p>
                 </div>
             </div>
-            
-            <div style="margin-top: 1rem; display: flex; gap: 1rem; justify-content: center;">
-                <button id="exportPDFBtn" class="btn" style="background: #dc3545;">📑 Export to PDF</button>
-                <button id="exportWordBtn" class="btn btn-outline">📄 Export to Word</button>
+            <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+                <button id="exportPDFBtn" class="btn" style="background:#dc3545;">📑 Export to PDF</button>
+                <button id="payBtn" class="btn btn-premium">💳 Pay & Unlock Premium (UGX 35,000)</button>
             </div>
         </div>
     </div>
@@ -376,76 +531,230 @@
     <!-- Premium Modal -->
     <div id="premiumModal" class="modal">
         <div class="modal-content">
-            <h2>⭐ Upgrade to Premium</h2>
-            <p style="color: #1a4a6f; font-size: 1.5rem; font-weight: bold;">UGX 25,000</p>
+            <h2>⭐ Upgrade to Premium - UGX 35,000</h2>
             <p>One-time payment • Lifetime access</p>
-            <ul class="feature-list">
+            <ul style="text-align:left; margin:1rem;">
                 <li>✅ Unlimited log entries</li>
-                <li>✅ AI generate full report from logbook</li>
-                <li>✅ Grammar fix for all content</li>
-                <li>✅ Export to PDF & Word</li>
-                <li>✅ Quality score & suggestions</li>
-                <li>✅ Remove "Free Trial" watermark</li>
+                <li>✅ Generate full 24+ page professional report</li>
+                <li>✅ Export to PDF (university format)</li>
+                <li>✅ Include appendices and figures</li>
+                <li>✅ Remove watermarks</li>
             </ul>
-            <button id="payWithPesapalBtn" class="btn" style="background: #28a745; width: 100%; margin: 0.5rem 0;">💳 Pay with Pesapal</button>
-            <button id="startTrialBtn" class="btn-outline" style="width: 100%; padding: 0.7rem;">🎁 Start 7-Day Free Trial</button>
-            <button id="closeModalBtn" style="margin-top: 1rem; background: none; border: none; color: #999; cursor: pointer;">Close</button>
+            <button id="payWithPesapalBtn" class="btn" style="background:#28a745; width:100%;">Pay with Pesapal</button>
+            <button id="startTrialBtn" class="btn-outline" style="margin-top:0.5rem;">Start 7-Day Free Trial</button>
+            <button id="closeModalBtn" style="margin-top:1rem; background:none; border:none; cursor:pointer;">Close</button>
         </div>
     </div>
 
     <script>
         // ========================================
-        // INTERNSHIP REPORT BUILDER - COMPLETE WORKING VERSION
-        // Logbook → Auto-Generate Report
-        // Premium tiers with Pesapal
+        // PROFESSIONAL INTERNSHIP REPORT BUILDER
+        // Islamic University in Uganda Format
         // ========================================
 
         // State
         let isPremium = localStorage.getItem('premiumUnlocked') === 'true';
         let trialEnds = localStorage.getItem('trialEnds');
+        let currentStep = 1;
+        let generatedReport = null;
+        
+        // Data stores
         let logbookEntries = [];
+        let staffEntries = [];
+        let theoryEntries = [];
+        let appendixEntries = [];
 
         // Load saved data
         function loadData() {
-            const saved = localStorage.getItem('internshipReportData');
+            const saved = localStorage.getItem('internshipReportDataV2');
             if (saved) {
                 const data = JSON.parse(saved);
                 logbookEntries = data.logbookEntries || [];
-                if (data.studentName) document.getElementById('studentName').value = data.studentName;
-                if (data.studentId) document.getElementById('studentId').value = data.studentId;
-                if (data.university) document.getElementById('university').value = data.university;
-                if (data.programme) document.getElementById('programme').value = data.programme;
-                if (data.supervisor) document.getElementById('supervisor').value = data.supervisor;
-                if (data.orgName) document.getElementById('orgName').value = data.orgName;
-                if (data.department) document.getElementById('department').value = data.department;
-                if (data.orgLocation) document.getElementById('orgLocation').value = data.orgLocation;
-                if (data.workSupervisor) document.getElementById('workSupervisor').value = data.workSupervisor;
-                if (data.startDate) document.getElementById('startDate').value = data.startDate;
-                if (data.endDate) document.getElementById('endDate').value = data.endDate;
+                staffEntries = data.staffEntries || [];
+                theoryEntries = data.theoryEntries || [];
+                appendixEntries = data.appendixEntries || [];
+                
+                // Restore form values
+                const fields = ['studentName', 'studentId', 'university', 'faculty', 'department', 'programme', 'academicSupervisor',
+                    'orgName', 'branch', 'orgAddress', 'workSupervisor', 'supervisorPosition', 'startDate', 'endDate',
+                    'orgHistory', 'orgVision', 'orgMission', 'orgValues', 'orgPrinciples',
+                    'deptName', 'deptHead', 'deptRole', 'supervisorRole',
+                    'knowledgeGained', 'skillsGained', 'personalContribution',
+                    'internalChallenges', 'externalChallenges', 'challengeSolutions',
+                    'recUniversity', 'recOrganization', 'recStudents'];
+                fields.forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el && data[id]) el.value = data[id];
+                });
             }
-            renderLogbook();
+            renderStaffList();
+            renderLogbookList();
+            renderTheoriesList();
+            renderAppendicesList();
             updatePremiumUI();
             checkTrial();
         }
 
         function saveData() {
-            const data = {
-                logbookEntries,
-                studentName: document.getElementById('studentName').value,
-                studentId: document.getElementById('studentId').value,
-                university: document.getElementById('university').value,
-                programme: document.getElementById('programme').value,
-                supervisor: document.getElementById('supervisor').value,
-                orgName: document.getElementById('orgName').value,
-                department: document.getElementById('department').value,
-                orgLocation: document.getElementById('orgLocation').value,
-                workSupervisor: document.getElementById('workSupervisor').value,
-                startDate: document.getElementById('startDate').value,
-                endDate: document.getElementById('endDate').value
-            };
-            localStorage.setItem('internshipReportData', JSON.stringify(data));
+            const fields = ['studentName', 'studentId', 'university', 'faculty', 'department', 'programme', 'academicSupervisor',
+                'orgName', 'branch', 'orgAddress', 'workSupervisor', 'supervisorPosition', 'startDate', 'endDate',
+                'orgHistory', 'orgVision', 'orgMission', 'orgValues', 'orgPrinciples',
+                'deptName', 'deptHead', 'deptRole', 'supervisorRole',
+                'knowledgeGained', 'skillsGained', 'personalContribution',
+                'internalChallenges', 'externalChallenges', 'challengeSolutions',
+                'recUniversity', 'recOrganization', 'recStudents'];
+            const data = { logbookEntries, staffEntries, theoryEntries, appendixEntries };
+            fields.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) data[id] = el.value;
+            });
+            localStorage.setItem('internshipReportDataV2', JSON.stringify(data));
         }
 
+        // Navigation
+        function nextStep() {
+            saveData();
+            if (currentStep < 10) {
+                document.getElementById(`step${currentStep}`).classList.remove('active');
+                currentStep++;
+                document.getElementById(`step${currentStep}`).classList.add('active');
+                updateProgressBar();
+            }
+        }
+
+        function prevStep() {
+            saveData();
+            if (currentStep > 1) {
+                document.getElementById(`step${currentStep}`).classList.remove('active');
+                currentStep--;
+                document.getElementById(`step${currentStep}`).classList.add('active');
+                updateProgressBar();
+            }
+        }
+
+        function updateProgressBar() {
+            const percent = (currentStep / 10) * 100;
+            document.getElementById('progressBar').style.width = `${percent}%`;
+            document.getElementById('stepIndicator').innerText = `Step ${currentStep} of 10`;
+        }
+
+        // Staff Management
+        function addStaff() {
+            staffEntries.push({ name: '', position: '', responsibilities: '' });
+            renderStaffList();
+        }
+
+        function updateStaff(index, field, value) {
+            staffEntries[index][field] = value;
+            saveData();
+        }
+
+        function removeStaff(index) {
+            staffEntries.splice(index, 1);
+            renderStaffList();
+        }
+
+        function renderStaffList() {
+            const container = document.getElementById('staffList');
+            if (!container) return;
+            container.innerHTML = staffEntries.map((staff, idx) => `
+                <div class="staff-entry">
+                    <input type="text" placeholder="Name" value="${escapeHtml(staff.name)}" onchange="updateStaff(${idx}, 'name', this.value)">
+                    <input type="text" placeholder="Position" value="${escapeHtml(staff.position)}" onchange="updateStaff(${idx}, 'position', this.value)" style="margin-top:0.5rem;">
+                    <textarea placeholder="Responsibilities" rows="2" onchange="updateStaff(${idx}, 'responsibilities', this.value)">${escapeHtml(staff.responsibilities)}</textarea>
+                    <button class="remove-btn" onclick="removeStaff(${idx})">Remove</button>
+                </div>
+            `).join('');
+        }
+
+        // Logbook Management
+        function addLogEntry() {
+            logbookEntries.push({ date: '', activity: '', description: '', skills: '', challenges: '' });
+            renderLogbookList();
+        }
+
+        function updateLogEntry(index, field, value) {
+            logbookEntries[index][field] = value;
+            saveData();
+        }
+
+        function removeLogEntry(index) {
+            logbookEntries.splice(index, 1);
+            renderLogbookList();
+        }
+
+        function renderLogbookList() {
+            const container = document.getElementById('logbookList');
+            if (!container) return;
+            container.innerHTML = logbookEntries.map((entry, idx) => `
+                <div class="entry-card">
+                    <input type="date" placeholder="Date" value="${entry.date}" onchange="updateLogEntry(${idx}, 'date', this.value)">
+                    <input type="text" placeholder="Activity/Task" value="${escapeHtml(entry.activity)}" onchange="updateLogEntry(${idx}, 'activity', this.value)" style="margin-top:0.5rem;">
+                    <textarea placeholder="Detailed Description" rows="2" onchange="updateLogEntry(${idx}, 'description', this.value)">${escapeHtml(entry.description)}</textarea>
+                    <input type="text" placeholder="Skills developed" value="${escapeHtml(entry.skills)}" onchange="updateLogEntry(${idx}, 'skills', this.value)">
+                    <textarea placeholder="Challenges encountered & solutions" rows="2" onchange="updateLogEntry(${idx}, 'challenges', this.value)">${escapeHtml(entry.challenges)}</textarea>
+                    <button class="remove-btn" onclick="removeLogEntry(${idx})">Remove</button>
+                </div>
+            `).join('');
+        }
+
+        // Theories Management
+        function addTheory() {
+            theoryEntries.push({ name: '', explanation: '' });
+            renderTheoriesList();
+        }
+
+        function updateTheory(index, field, value) {
+            theoryEntries[index][field] = value;
+            saveData();
+        }
+
+        function removeTheory(index) {
+            theoryEntries.splice(index, 1);
+            renderTheoriesList();
+        }
+
+        function renderTheoriesList() {
+            const container = document.getElementById('theoriesList');
+            if (!container) return;
+            container.innerHTML = theoryEntries.map((theory, idx) => `
+                <div class="theory-entry">
+                    <input type="text" placeholder="Theory Name" value="${escapeHtml(theory.name)}" onchange="updateTheory(${idx}, 'name', this.value)">
+                    <textarea placeholder="How this theory applied to your fieldwork..." rows="2" onchange="updateTheory(${idx}, 'explanation', this.value)">${escapeHtml(theory.explanation)}</textarea>
+                    <button class="remove-btn" onclick="removeTheory(${idx})">Remove</button>
+                </div>
+            `).join('');
+        }
+
+        // Appendices Management
+        function addAppendix() {
+            appendixEntries.push({ title: '', description: '' });
+            renderAppendicesList();
+        }
+
+        function updateAppendix(index, field, value) {
+            appendixEntries[index][field] = value;
+            saveData();
+        }
+
+        function removeAppendix(index) {
+            appendixEntries.splice(index, 1);
+            renderAppendicesList();
+        }
+
+        function renderAppendicesList() {
+            const container = document.getElementById('appendicesList');
+            if (!container) return;
+            container.innerHTML = appendixEntries.map((app, idx) => `
+                <div class="appendix-entry">
+                    <input type="text" placeholder="Figure/Image Title" value="${escapeHtml(app.title)}" onchange="updateAppendix(${idx}, 'title', this.value)">
+                    <textarea placeholder="Description of the image/figure..." rows="2" onchange="updateAppendix(${idx}, 'description', this.value)">${escapeHtml(app.description)}</textarea>
+                    <button class="remove-btn" onclick="removeAppendix(${idx})">Remove</button>
+                </div>
+            `).join('');
+        }
+
+        // Premium functions
         function checkTrial() {
             if (trialEnds && new Date() < new Date(trialEnds)) {
                 isPremium = true;
@@ -454,7 +763,6 @@
             } else if (trialEnds && new Date() >= new Date(trialEnds)) {
                 isPremium = false;
                 localStorage.setItem('premiumUnlocked', 'false');
-                showAlert('Free trial expired. Upgrade to continue using premium features.', 'warning');
             }
             updatePremiumUI();
         }
@@ -468,104 +776,20 @@
             updatePremiumUI();
             closeModal();
             showAlert('7-day free trial started! Enjoy premium features.', 'success');
-            renderLogbook();
         }
 
         function updatePremiumUI() {
             const statusSpan = document.getElementById('premiumStatus');
-            const limitWarning = document.getElementById('premiumLimitWarning');
-            
             if (isPremium) {
                 statusSpan.innerHTML = '⭐ Premium Unlocked';
                 statusSpan.style.background = '#28a745';
-                statusSpan.style.color = 'white';
-                if (limitWarning) limitWarning.style.display = 'none';
-                document.body.classList.add('premium-unlocked');
             } else {
                 statusSpan.innerHTML = '⭐ Free Trial';
                 statusSpan.style.background = '#ffc107';
-                statusSpan.style.color = '#1a2a3a';
-                if (limitWarning && logbookEntries.length >= 5) {
-                    limitWarning.style.display = 'block';
-                }
-                document.body.classList.remove('premium-unlocked');
             }
         }
 
-        function addLogEntry() {
-            const date = document.getElementById('logDate').value;
-            const activity = document.getElementById('logActivity').value;
-            const description = document.getElementById('logDescription').value;
-            const skills = document.getElementById('logSkills').value;
-            const challenges = document.getElementById('logChallenges').value;
-
-            if (!date || !activity) {
-                showAlert('Please enter at least Date and Activity', 'warning');
-                return;
-            }
-
-            if (!isPremium && logbookEntries.length >= 5) {
-                showAlert('Free trial limited to 5 entries. Upgrade to premium for unlimited.', 'warning');
-                document.getElementById('premiumLimitWarning').style.display = 'block';
-                return;
-            }
-
-            logbookEntries.push({
-                id: Date.now(),
-                date,
-                activity,
-                description,
-                skills,
-                challenges
-            });
-
-            document.getElementById('logDate').value = '';
-            document.getElementById('logActivity').value = '';
-            document.getElementById('logDescription').value = '';
-            document.getElementById('logSkills').value = '';
-            document.getElementById('logChallenges').value = '';
-
-            renderLogbook();
-            saveData();
-            showAlert('Log entry added!', 'success');
-        }
-
-        function deleteLogEntry(id) {
-            logbookEntries = logbookEntries.filter(entry => entry.id !== id);
-            renderLogbook();
-            saveData();
-            showAlert('Entry deleted', 'info');
-        }
-
-        function renderLogbook() {
-            const container = document.getElementById('logEntriesList');
-            const logCountSpan = document.getElementById('logCount');
-            
-            if (!container) return;
-            
-            logCountSpan.innerText = `${logbookEntries.length} entries`;
-            
-            if (logbookEntries.length === 0) {
-                container.innerHTML = '<p style="color: #999; text-align: center; padding: 1rem;">No log entries yet. Add your first day above.</p>';
-                return;
-            }
-            
-            container.innerHTML = logbookEntries.map(entry => `
-                <div class="log-entry">
-                    <div class="flex-between">
-                        <span class="log-date">📅 ${entry.date}</span>
-                        <button class="delete-btn" onclick="deleteLogEntry(${entry.id})">Delete</button>
-                    </div>
-                    <div><strong>${escapeHtml(entry.activity)}</strong></div>
-                    <div style="font-size: 0.85rem; color: #555;">${escapeHtml(entry.description || '')}</div>
-                    ${entry.skills ? `<div style="font-size: 0.8rem; color: #1a4a6f; margin-top: 0.3rem;">🏆 Skills: ${escapeHtml(entry.skills)}</div>` : ''}
-                    ${entry.challenges ? `<div style="font-size: 0.8rem; color: #dc3545; margin-top: 0.3rem;">⚠️ Challenges: ${escapeHtml(entry.challenges)}</div>` : ''}
-                </div>
-            `).join('');
-            
-            updatePremiumUI();
-        }
-
+        // Generate Report
         function generateReport() {
             if (!isPremium) {
                 showModal();
@@ -573,251 +797,55 @@
                 return;
             }
 
-            if (logbookEntries.length === 0) {
-                showAlert('Please add logbook entries first', 'warning');
-                return;
-            }
+            const statusDiv = document.getElementById('generationStatus');
+            statusDiv.innerHTML = '<div style="background:#e8f4f0; padding:0.5rem; border-radius:6px;">📄 Generating your professional report...</div>';
+            
+            setTimeout(() => {
+                const reportHTML = buildProfessionalReport();
+                document.getElementById('reportContent').innerHTML = reportHTML;
+                generatedReport = reportHTML;
+                statusDiv.innerHTML = '<div style="background:#d4edda; padding:0.5rem; border-radius:6px;">✅ Report generated! You can now export to PDF.</div>';
+                showAlert('Report generated successfully!', 'success');
+            }, 1000);
+        }
 
-            const studentName = document.getElementById('studentName').value || 'Student Name';
-            const studentId = document.getElementById('studentId').value || '';
-            const university = document.getElementById('university').value || 'University Name';
-            const programme = document.getElementById('programme').value || '';
-            const supervisor = document.getElementById('supervisor').value || '';
-            const orgName = document.getElementById('orgName').value || 'Organization';
-            const department = document.getElementById('department').value || '';
-            const orgLocation = document.getElementById('orgLocation').value || '';
-            const workSupervisor = document.getElementById('workSupervisor').value || '';
+        function buildProfessionalReport() {
+            // Get all form values
+            const studentName = document.getElementById('studentName').value || 'STUDENT NAME';
+            const studentId = document.getElementById('studentId').value || 'REGISTRATION NUMBER';
+            const university = document.getElementById('university').value || 'Islamic University in Uganda';
+            const faculty = document.getElementById('faculty').value || 'Faculty Name';
+            const department = document.getElementById('department').value || 'Department Name';
+            const programme = document.getElementById('programme').value || 'Programme Name';
+            const academicSupervisor = document.getElementById('academicSupervisor').value || 'Supervisor Name';
+            
+            const orgName = document.getElementById('orgName').value || 'Organization Name';
+            const branch = document.getElementById('branch').value || '';
+            const orgAddress = document.getElementById('orgAddress').value || '';
+            const workSupervisor = document.getElementById('workSupervisor').value || 'Workplace Supervisor';
+            const supervisorPosition = document.getElementById('supervisorPosition').value || '';
             const startDate = document.getElementById('startDate').value || '';
             const endDate = document.getElementById('endDate').value || '';
-            const currentDate = new Date().toLocaleDateString('en-GB');
-
-            let chapter3 = '';
-            logbookEntries.forEach(entry => {
-                chapter3 += `
-                    <div class="activity-entry">
-                        <h4>${entry.date}: ${escapeHtml(entry.activity)}</h4>
-                        <p>${escapeHtml(entry.description || 'No description provided.')}</p>
-                        ${entry.skills ? `<p><strong>Skills developed:</strong> ${escapeHtml(entry.skills)}</p>` : ''}
-                        ${entry.challenges ? `<p><strong>Challenges encountered:</strong> ${escapeHtml(entry.challenges)}</p>` : ''}
-                    </div>
-                `;
-            });
-
-            const allSkills = [...new Set(logbookEntries.flatMap(e => 
-                e.skills ? e.skills.split(',').map(s => s.trim()) : []
-            ))];
-            let chapter4 = `<p>During this internship, I developed the following professional competencies: <strong>${allSkills.join(', ') || 'Various practical skills'}</strong>.</p>`;
-
-            const allChallenges = logbookEntries.filter(e => e.challenges).map(e => e.challenges);
-            let chapter5 = allChallenges.length > 0 
-                ? `<ul>${allChallenges.map(c => `<li>${escapeHtml(c)}</li>`).join('')}</ul>`
-                : `<p>Various challenges were encountered and successfully overcome during the internship period.</p>`;
-
-            const reportHTML = `
-                <div class="report-document">
-                    <div style="text-align: center; margin-bottom: 2rem;">
-                        <h1>INTERNSHIP REPORT</h1>
-                        <p>Submitted in partial fulfillment of the requirements for ${programme}</p>
-                        <hr>
-                        <p><strong>Name:</strong> ${escapeHtml(studentName)} (${escapeHtml(studentId)})</p>
-                        <p><strong>University:</strong> ${escapeHtml(university)}</p>
-                        <p><strong>Supervisor:</strong> ${escapeHtml(supervisor)}</p>
-                        <p><strong>Organization:</strong> ${escapeHtml(orgName)} - ${escapeHtml(department)}</p>
-                        <p><strong>Location:</strong> ${escapeHtml(orgLocation)}</p>
-                        <p><strong>Internship Period:</strong> ${startDate} to ${endDate}</p>
-                        <p><strong>Workplace Supervisor:</strong> ${escapeHtml(workSupervisor)}</p>
-                        <p><strong>Submission Date:</strong> ${currentDate}</p>
-                    </div>
-
-                    <h2>DECLARATION</h2>
-                    <p>I, ${escapeHtml(studentName)}, hereby declare that this internship report is my original work and has not been submitted for any other qualification.</p>
-
-                    <h2>ACKNOWLEDGEMENT</h2>
-                    <p>I wish to express my sincere gratitude to my university supervisor, ${escapeHtml(supervisor)}, and workplace supervisor, ${escapeHtml(workSupervisor)}, for their guidance and support throughout this internship.</p>
-
-                    <h2>ABSTRACT</h2>
-                    <p>This report documents the internship experience at ${escapeHtml(orgName)} from ${startDate} to ${endDate}. The placement provided valuable practical exposure in ${escapeHtml(department)}.</p>
-
-                    <h2>CHAPTER ONE: INTRODUCTION</h2>
-                    <p>This internship was undertaken at ${escapeHtml(orgName)} in the ${escapeHtml(department)} department. The primary objectives were to apply theoretical knowledge, gain practical skills, and develop professional competencies.</p>
-
-                    <h2>CHAPTER TWO: ORGANIZATION PROFILE</h2>
-                    <p>${escapeHtml(orgName)} is located at ${escapeHtml(orgLocation)}. The ${escapeHtml(department)} department is supervised by ${escapeHtml(workSupervisor)}.</p>
-
-                    <h2>CHAPTER THREE: ACTIVITIES PERFORMED</h2>
-                    ${chapter3}
-
-                    <h2>CHAPTER FOUR: SKILLS AND LEARNING OUTCOMES</h2>
-                    ${chapter4}
-
-                    <h2>CHAPTER FIVE: CHALLENGES AND SOLUTIONS</h2>
-                    ${chapter5}
-
-                    <h2>CHAPTER SIX: RECOMMENDATIONS</h2>
-                    <ul>
-                        <li>Future students should maintain consistent logbook documentation.</li>
-                        <li>The university should strengthen pre-internship orientation.</li>
-                        <li>Host organizations should provide structured mentorship.</li>
-                    </ul>
-
-                    <h2>CHAPTER SEVEN: CONCLUSION</h2>
-                    <p>The internship at ${escapeHtml(orgName)} was a transformative learning experience. The practical exposure gained will guide my future professional endeavors.</p>
-
-                    <h2>REFERENCES</h2>
-                    <p>${escapeHtml(university)} Internship Guidelines Handbook (${new Date().getFullYear()})</p>
-                </div>
-            `;
-
-            document.getElementById('reportContent').innerHTML = reportHTML;
-            document.getElementById('previewStudentName').innerHTML = studentName;
-            document.getElementById('previewUniversity').innerHTML = university;
             
-            showAlert('Report generated successfully! You can now export to PDF/Word.', 'success');
-        }
-
-        function exportToPDF() {
-            if (!isPremium) {
-                showModal();
-                showAlert('Export to PDF is a premium feature', 'warning');
-                return;
-            }
-            const element = document.getElementById('reportPreview');
-            html2pdf().from(element).set({
-                margin: 0.5,
-                filename: `Internship_Report_${document.getElementById('studentName').value || 'Student'}.pdf`,
-                html2canvas: { scale: 2 },
-                jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
-            }).save();
-        }
-
-        function exportToWord() {
-            if (!isPremium) {
-                showModal();
-                showAlert('Export to Word is a premium feature', 'warning');
-                return;
-            }
-            const content = document.getElementById('reportPreview').innerHTML;
-            const blob = new Blob([`
-                <html>
-                <head><meta charset="UTF-8"><title>Internship Report</title></head>
-                <body>${content}</body>
-                </html>
-            `], { type: 'application/msword' });
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = `Internship_Report_${document.getElementById('studentName').value || 'Student'}.doc`;
-            link.click();
-            URL.revokeObjectURL(link.href);
-        }
-
-        function showAlert(message, type = 'info') {
-            const alert = document.createElement('div');
-            alert.className = 'alert';
-            alert.style.background = type === 'success' ? '#28a745' : type === 'warning' ? '#ffc107' : '#17a2b8';
-            alert.style.color = type === 'warning' ? '#1a2a3a' : 'white';
-            alert.innerText = message;
-            document.body.appendChild(alert);
-            setTimeout(() => alert.remove(), 3000);
-        }
-
-        function showModal() {
-            document.getElementById('premiumModal').classList.add('active');
-        }
-
-        function closeModal() {
-            document.getElementById('premiumModal').classList.remove('active');
-        }
-
-        function escapeHtml(str) {
-            if (!str) return '';
-            return str.replace(/[&<>]/g, function(m) {
-                if (m === '&') return '&amp;';
-                if (m === '<') return '&lt;';
-                if (m === '>') return '&gt;';
-                return m;
-            });
-        }
-
-        // Pesapal payment integration
-        // Payment function for Internship Report Builder
-function initPesapalPayment() {
-    const email = document.getElementById('studentName')?.value || 'student@example.com';
-    const name = document.getElementById('studentName')?.value || 'Student';
-    const amount = 25000;
-    
-    // Check if user has generated report first
-    if (!reportState.generated && logbookEntries.length === 0) {
-        showAlert('Please generate your report first before paying', 'warning');
-        return;
-    }
-    
-    // Store product type for success page
-    localStorage.setItem('productType', 'internship');
-    
-    // Store the report HTML for download after payment
-    const reportHTML = document.getElementById('reportContent').innerHTML;
-    localStorage.setItem('generatedReportHTML', reportHTML);
-    
-    // Store student data
-    const studentData = {
-        studentName: document.getElementById('studentName').value,
-        studentId: document.getElementById('studentId').value,
-        university: document.getElementById('university').value,
-        programme: document.getElementById('programme').value
-    };
-    localStorage.setItem('internshipReportData', JSON.stringify(studentData));
-    
-    showAlert('Connecting to Remmie Komm Hub payment gateway...', 'info');
-    
-    // Call your backend function (adjust URL if needed)
-    const backendUrl = 'https://internship-report-payments-backend.netlify.app/.netlify/functions/pesapal-submit-order';
-    
-    fetch(backendUrl, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-            amount: amount, 
-            email: email, 
-            name: name,
-            productType: "internship"
-        })
-    })
-    .then(res => res.json())
-    .then(data => {
-        if (data.redirect_url) {
-            window.location.href = data.redirect_url;
-        } else {
-            showAlert('Payment error. Please try again.', 'warning');
-        }
-    })
-    .catch(err => {
-        console.error('Payment error:', err);
-        showAlert('Connection error. Please try again.', 'warning');
-    });
-}
-
-        // Event listeners
-        document.getElementById('addLogBtn').onclick = addLogEntry;
-        document.getElementById('generateReportBtn').onclick = generateReport;
-        document.getElementById('exportPDFBtn').onclick = exportToPDF;
-        document.getElementById('exportWordBtn').onclick = exportToWord;
-        document.getElementById('upgradeHeaderBtn').onclick = showModal;
-        document.getElementById('upgradeFromLimitBtn').onclick = showModal;
-        document.getElementById('payWithPesapalBtn').onclick = initPesapalPayment;
-        document.getElementById('startTrialBtn').onclick = startFreeTrial;
-        document.getElementById('closeModalBtn').onclick = closeModal;
-
-        const inputs = ['studentName', 'studentId', 'university', 'programme', 'supervisor', 'orgName', 'department', 'orgLocation', 'workSupervisor', 'startDate', 'endDate'];
-        inputs.forEach(id => {
-            const el = document.getElementById(id);
-            if (el) el.onchange = () => saveData();
-        });
-
-        loadData();
-        
-        const script = document.createElement('script');
-        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js';
-        document.head.appendChild(script);
-    </script>
-</body>
-</html>
+            const orgHistory = document.getElementById('orgHistory').value || 'History of the organization.';
+            const orgVision = document.getElementById('orgVision').value || 'Organization vision statement.';
+            const orgMission = document.getElementById('orgMission').value || 'Organization mission statement.';
+            const orgValues = document.getElementById('orgValues').value || 'Values of the organization.';
+            const orgPrinciples = document.getElementById('orgPrinciples').value || 'Service principles.';
+            
+            const deptName = document.getElementById('deptName').value || 'Department Name';
+            const deptHead = document.getElementById('deptHead').value || '';
+            const deptRole = document.getElementById('deptRole').value || 'Role of the department.';
+            const supervisorRole = document.getElementById('supervisorRole').value || 'Role of the supervisor.';
+            
+            const knowledgeGained = document.getElementById('knowledgeGained').value || 'Knowledge acquired during internship.';
+            const skillsGained = document.getElementById('skillsGained').value || 'Skills developed.';
+            const personalContribution = document.getElementById('personalContribution').value || 'Personal contribution to the organization.';
+            
+            const internalChallenges = document.getElementById('internalChallenges').value || 'Internal challenges faced.';
+            const externalChallenges = document.getElementById('externalChallenges').value || 'External challenges faced.';
+            const challengeSolutions = document.getElementById('challengeSolutions').value || 'Solutions to challenges.';
+            
+            const recUniversity = document.getElementById('recUniversity').value || 'Recommendations to the university.';
+            const recOrganization = document.getElementById('recOrganization').value || 'Recommendations to the organization.';
+            const recStudents = document.getElementById('recStudents').value ||
