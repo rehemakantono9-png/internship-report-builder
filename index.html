@@ -739,43 +739,62 @@
         }
 
         // Pesapal payment integration
-        function initPesapalPayment() {
-            const email = document.getElementById('studentName')?.value || 'student@example.com';
-            const name = document.getElementById('studentName')?.value || 'Student';
-            
-            // Your backend URL after renaming
-            const backendUrl = 'https://internship-report-payments-backend.netlify.app';
-            
-            showAlert('Connecting to payment gateway...', 'info');
-            
-            // Call your Netlify function for payment
-            fetch('/.netlify/functions/pesapal-submit-order', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ amount: 25000, email, name })
-            })
-            .then(res => res.json())
-            .then(data => {
-                if (data.redirect_url) {
-                    window.location.href = data.redirect_url;
-                } else {
-                    showAlert('Payment error. Please try again.', 'warning');
-                }
-            })
-            .catch(err => {
-                console.error(err);
-                // Demo fallback
-                if (confirm('Demo Mode: Click OK to simulate successful payment and unlock premium')) {
-                    localStorage.setItem('premiumUnlocked', 'true');
-                    localStorage.removeItem('trialEnds');
-                    isPremium = true;
-                    updatePremiumUI();
-                    closeModal();
-                    showAlert('Premium unlocked! (Demo mode)', 'success');
-                    renderLogbook();
-                }
-            });
+        // Payment function for Internship Report Builder
+function initPesapalPayment() {
+    const email = document.getElementById('studentName')?.value || 'student@example.com';
+    const name = document.getElementById('studentName')?.value || 'Student';
+    const amount = 25000;
+    
+    // Check if user has generated report first
+    if (!reportState.generated && logbookEntries.length === 0) {
+        showAlert('Please generate your report first before paying', 'warning');
+        return;
+    }
+    
+    // Store product type for success page
+    localStorage.setItem('productType', 'internship');
+    
+    // Store the report HTML for download after payment
+    const reportHTML = document.getElementById('reportContent').innerHTML;
+    localStorage.setItem('generatedReportHTML', reportHTML);
+    
+    // Store student data
+    const studentData = {
+        studentName: document.getElementById('studentName').value,
+        studentId: document.getElementById('studentId').value,
+        university: document.getElementById('university').value,
+        programme: document.getElementById('programme').value
+    };
+    localStorage.setItem('internshipReportData', JSON.stringify(studentData));
+    
+    showAlert('Connecting to Remmie Komm Hub payment gateway...', 'info');
+    
+    // Call your backend function (adjust URL if needed)
+    const backendUrl = 'https://internship-report-payments-backend.netlify.app/.netlify/functions/pesapal-submit-order';
+    
+    fetch(backendUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+            amount: amount, 
+            email: email, 
+            name: name,
+            productType: "internship"
+        })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.redirect_url) {
+            window.location.href = data.redirect_url;
+        } else {
+            showAlert('Payment error. Please try again.', 'warning');
         }
+    })
+    .catch(err => {
+        console.error('Payment error:', err);
+        showAlert('Connection error. Please try again.', 'warning');
+    });
+}
 
         // Event listeners
         document.getElementById('addLogBtn').onclick = addLogEntry;
