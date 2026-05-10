@@ -1,1235 +1,821 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Internship Report Builder - AI Powered</title>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      min-height: 100vh;
-      padding: 20px;
-    }
-    
-    .app {
-      max-width: 1400px;
-      margin: 0 auto;
-      background: white;
-      border-radius: 20px;
-      overflow: hidden;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-    }
-    
-    .header {
-      background: linear-gradient(135deg, #10b981, #8b5cf6);
-      color: white;
-      padding: 20px 30px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 15px;
-    }
-    
-    .header h1 { font-size: 1.5rem; margin-bottom: 5px; }
-    .header p { opacity: 0.9; font-size: 0.875rem; }
-    
-    .premium-badge {
-      background: rgba(255,255,255,0.2);
-      padding: 8px 20px;
-      border-radius: 40px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    
-    .premium-badge.premium {
-      background: linear-gradient(135deg, #f59e0b, #ef4444);
-      animation: pulse 2s infinite;
-    }
-    
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-    }
-    
-    .nav {
-      display: flex;
-      gap: 5px;
-      flex-wrap: wrap;
-      padding: 15px 20px;
-      background: #f8fafc;
-      border-bottom: 1px solid #e2e8f0;
-    }
-    
-    .nav-btn {
-      padding: 10px 20px;
-      border: none;
-      background: transparent;
-      border-radius: 10px;
-      cursor: pointer;
-      font-size: 14px;
-      font-weight: 500;
-      transition: all 0.2s;
-    }
-    
-    .nav-btn:hover { background: #e2e8f0; }
-    .nav-btn.active { background: linear-gradient(135deg, #10b981, #8b5cf6); color: white; }
-    
-    .content { padding: 30px; min-height: 500px; }
-    .page { display: none; animation: fadeIn 0.3s ease; }
-    .page.active { display: block; }
-    
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    
-    h2 { color: #1f2937; margin-bottom: 15px; }
-    .form-group { margin-bottom: 20px; }
-    label { display: block; margin-bottom: 8px; font-weight: 500; color: #374151; }
-    
-    input, textarea, select {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid #d1d5db;
-      border-radius: 10px;
-      font-size: 14px;
-      transition: all 0.2s;
-    }
-    
-    input:focus, textarea:focus, select:focus {
-      outline: none;
-      border-color: #10b981;
-      box-shadow: 0 0 0 3px rgba(16,185,129,0.1);
-    }
-    
-    button {
-      padding: 12px 24px;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: all 0.2s;
-    }
-    
-    .btn-primary { background: linear-gradient(135deg, #10b981, #8b5cf6); color: white; }
-    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
-    .btn-secondary { background: #f3f4f6; color: #374151; }
-    .btn-group { display: flex; gap: 12px; margin-top: 30px; justify-content: space-between; }
-    
-    .card-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 20px;
-      margin: 20px 0;
-    }
-    
-    .card {
-      background: #f9fafb;
-      border: 1px solid #e5e7eb;
-      border-radius: 12px;
-      padding: 20px;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    
-    .card:hover { border-color: #10b981; transform: translateY(-2px); }
-    .card h4 { color: #10b981; margin-bottom: 8px; }
-    
-    .placement-card {
-      background: #f9fafb;
-      border: 2px solid #e5e7eb;
-      border-radius: 12px;
-      padding: 20px;
-      cursor: pointer;
-      transition: all 0.2s;
-      text-align: center;
-    }
-    
-    .placement-card:hover { border-color: #10b981; transform: translateY(-2px); }
-    .placement-card.active { border-color: #10b981; background: #f0fdf4; }
-    .placement-card h4 { color: #10b981; margin-bottom: 8px; }
-    .placement-card p { font-size: 12px; color: #6b7280; }
-    
-    .ai-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 15px;
-      margin: 20px 0;
-    }
-    
-    .ai-card {
-      background: linear-gradient(135deg, #fef3c7, #fde68a);
-      border-radius: 12px;
-      padding: 20px;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    
-    .ai-card:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
-    .ai-card h4 { color: #92400e; margin-bottom: 8px; }
-    .ai-card p { font-size: 12px; color: #78350f; }
-    
-    .two-column { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-    
-    @media (max-width: 768px) {
-      .content { padding: 20px; }
-      .two-column { grid-template-columns: 1fr; }
-      .btn-group { flex-direction: column; }
-      button { width: 100%; }
-    }
-    
-    .log-entry {
-      background: #f9fafb;
-      padding: 15px;
-      border-radius: 10px;
-      margin-bottom: 10px;
-      border-left: 4px solid #10b981;
-    }
-    
-    .log-entry strong { color: #10b981; }
-    
-    .section-nav {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-bottom: 20px;
-      padding: 15px;
-      background: #f8fafc;
-      border-radius: 12px;
-    }
-    
-    .section-btn {
-      padding: 8px 16px;
-      background: white;
-      border: 1px solid #e2e8f0;
-      border-radius: 20px;
-      cursor: pointer;
-      font-size: 12px;
-      transition: all 0.2s;
-    }
-    
-    .section-btn:hover { background: #10b981; color: white; }
-    .section-btn.active { background: #10b981; color: white; border-color: #10b981; }
-    
-    .guidance-box {
-      background: #fef3c7;
-      padding: 15px;
-      border-radius: 12px;
-      margin-top: 20px;
-      border-left: 4px solid #f59e0b;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Internship Report Builder | AI-Powered Report Generator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    @media print {
-      .nav, .header, .btn-group, .premium-badge, .nav-bar, button:not(.no-print) {
-        display: none !important;
-      }
-      .content, .page, .page.active {
-        display: block !important;
-        padding: 0 !important;
-        margin: 0 !important;
-      }
-    }
-  </style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f0f2f5;
+            color: #1a2a3a;
+            line-height: 1.5;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #0d2b3e, #1a4a6f);
+            color: white;
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .premium-badge {
+            background: gold;
+            color: #1a2a3a;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .upgrade-btn {
+            background: #ffc107;
+            color: #1a2a3a;
+            border: none;
+            padding: 0.4rem 1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.8rem;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1.5rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (max-width: 900px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Cards */
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .card h2 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: #0d2b3e;
+            border-left: 4px solid #1a4a6f;
+            padding-left: 0.8rem;
+        }
+
+        .card h3 {
+            font-size: 1rem;
+            margin: 1rem 0 0.5rem;
+            color: #1a4a6f;
+        }
+
+        /* Forms */
+        input, select, textarea {
+            width: 100%;
+            padding: 0.7rem;
+            margin-bottom: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #1a4a6f;
+        }
+
+        label {
+            font-weight: 600;
+            font-size: 0.85rem;
+            display: block;
+            margin-bottom: 0.3rem;
+        }
+
+        /* Buttons */
+        .btn {
+            background: #1a4a6f;
+            color: white;
+            border: none;
+            padding: 0.7rem 1.2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+
+        .btn:hover {
+            background: #0d2b3e;
+            transform: translateY(-1px);
+        }
+
+        .btn-premium {
+            background: linear-gradient(135deg, #ffc107, #ff9800);
+            color: #1a2a3a;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #1a4a6f;
+            color: #1a4a6f;
+        }
+
+        /* Logbook Entry */
+        .log-entry {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-left: 3px solid #1a4a6f;
+        }
+
+        .log-date {
+            font-weight: bold;
+            color: #1a4a6f;
+        }
+
+        .log-actions {
+            margin-top: 0.5rem;
+        }
+
+        .delete-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.7rem;
+        }
+
+        /* Report Preview */
+        .report-preview {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .report-preview h2 {
+            color: #0d2b3e;
+            margin-top: 1.5rem;
+            border-bottom: 2px solid #1a4a6f;
+            padding-bottom: 0.3rem;
+        }
+
+        .activity-entry {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+        }
+
+        .feature-list {
+            text-align: left;
+            margin: 1rem 0;
+            padding-left: 1.5rem;
+        }
+
+        .feature-list li {
+            margin: 0.5rem 0;
+        }
+
+        /* Alert */
+        .alert {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #28a745;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            animation: fadeOut 3s forwards;
+            z-index: 1000;
+        }
+
+        @keyframes fadeOut {
+            0% { opacity: 1; }
+            70% { opacity: 1; }
+            100% { opacity: 0; visibility: hidden; }
+        }
+
+        /* Utility */
+        .premium-only {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        .premium-unlocked .premium-only {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .flex-between {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .status-badge {
+            background: #e8f4f0;
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+        }
+    </style>
 </head>
 <body>
-  <div class="app">
     <div class="header">
-      <div>
-        <h1>📝 Internship Report Builder</h1>
-        <p>AI-powered report writing - Turns bullet points into professional paragraphs for ALL chapters</p>
-      </div>
-      <div class="premium-badge" id="premiumBadge" onclick="unlockPremium()">
-        ⭐ FREE Trial - Click to Unlock Premium
-      </div>
-    </div>
-    
-    <div class="nav">
-      <button class="nav-btn active" data-page="home">🏠 Home</button>
-      <button class="nav-btn" data-page="profile">👤 Profile</button>
-      <button class="nav-btn" data-page="placement">📍 Placement Type</button>
-      <button class="nav-btn" data-page="details">📋 Placement Details</button>
-      <button class="nav-btn" data-page="logbook">📓 Logbook</button>
-      <button class="nav-btn" data-page="report">📄 Report Builder</button>
-      <button class="nav-btn" data-page="ai">🤖 AI Writing Assistant</button>
-      <button class="nav-btn" data-page="preview">👁️ Preview</button>
-      <button class="nav-btn" data-page="export">💾 Export</button>
-    </div>
-    
-    <div class="content">
-      <!-- HOME PAGE -->
-      <div id="page-home" class="page active">
-        <h2>✨ Welcome to Your AI-Powered Report Builder</h2>
-        <p style="color: #6b7280; margin-bottom: 20px;">Create professional internship reports - AI turns bullet points into paragraphs for ALL chapters</p>
-        
-        <div class="card-grid">
-          <div class="card" onclick="document.querySelector('[data-page=\'profile\']').click()">
-            <h4>📝 1. Complete Profile</h4>
-            <p>Add your personal and academic details</p>
-          </div>
-          <div class="card" onclick="document.querySelector('[data-page=\'placement\']').click()">
-            <h4>📍 2. Choose Placement Type</h4>
-            <p>Internship, School Practice, Legal, Clinical & more</p>
-          </div>
-          <div class="card" onclick="document.querySelector('[data-page=\'details\']').click()">
-            <h4>📋 3. Placement Details</h4>
-            <p>Tell us about your specific placement</p>
-          </div>
-          <div class="card" onclick="document.querySelector('[data-page=\'logbook\']').click()">
-            <h4>📓 4. Logbook</h4>
-            <p>Record daily activities - AI will convert to paragraphs</p>
-          </div>
-          <div class="card" onclick="document.querySelector('[data-page=\'report\']').click()">
-            <h4>📄 5. Generate Report</h4>
-            <p>AI helps write each section for your placement type</p>
-          </div>
-          <div class="card" onclick="document.querySelector('[data-page=\'ai\']').click()">
-            <h4>🤖 6. AI Enhancement</h4>
-            <p>Turn bullet points into paragraphs for ALL chapters</p>
-          </div>
-          <div class="card" onclick="document.querySelector('[data-page=\'export\']').click()">
-            <h4>💾 7. Export</h4>
-            <p>Download as Word or PDF</p>
-          </div>
-        </div>
-        
-        <button class="btn-primary" onclick="document.querySelector('[data-page=\'profile\']').click()">Start Building →</button>
-      </div>
-      
-      <!-- PROFILE PAGE -->
-      <div id="page-profile" class="page">
-        <h2>👤 Student Profile</h2>
-        <div class="two-column">
-          <div>
-            <div class="form-group"><label>Full Name *</label><input type="text" id="fullName" placeholder="Enter your full name"></div>
-            <div class="form-group"><label>Registration Number</label><input type="text" id="regNumber" placeholder="e.g., 2024/CS/001"></div>
-            <div class="form-group"><label>Email *</label><input type="email" id="email" placeholder="student@university.ac.ug"></div>
-            <div class="form-group"><label>Phone</label><input type="tel" id="phone" placeholder="+256 XXX XXX XXX"></div>
-          </div>
-          <div>
-            <div class="form-group"><label>University</label><input type="text" id="university" placeholder="Your university"></div>
-            <div class="form-group"><label>Faculty</label><input type="text" id="faculty" placeholder="e.g., Faculty of Computing"></div>
-            <div class="form-group"><label>Programme</label><input type="text" id="programme" placeholder="e.g., BSc Computer Science"></div>
-            <div class="form-group"><label>Year/Semester</label><input type="text" id="yearSemester" placeholder="Year 3, Semester 2"></div>
-          </div>
-        </div>
-        <div class="btn-group">
-          <button class="btn-secondary" onclick="document.querySelector('[data-page=\'home\']').click()">← Back</button>
-          <button class="btn-primary" onclick="document.querySelector('[data-page=\'placement\']').click()">Continue →</button>
-        </div>
-      </div>
-      
-      <!-- PLACEMENT TYPE SELECTION PAGE -->
-      <div id="page-placement" class="page">
-        <h2>📍 Select Your Placement Type</h2>
-        <p style="color: #6b7280; margin-bottom: 20px;">Choose the type of placement you are undertaking</p>
-        
-        <div class="card-grid" id="placementTypesGrid">
-          <div class="placement-card" data-type="internship" onclick="selectPlacementType('internship')">
-            <h4>💼 Internship</h4>
-            <p>Corporate/Industry placement in business, IT, engineering</p>
-          </div>
-          <div class="placement-card" data-type="school_practice" onclick="selectPlacementType('school_practice')">
-            <h4>📚 School Practice / Teaching</h4>
-            <p>Teaching practicum in schools, lesson delivery</p>
-          </div>
-          <div class="placement-card" data-type="clinical_placement" onclick="selectPlacementType('clinical_placement')">
-            <h4>🏥 Clinical Placement</h4>
-            <p>Medical, nursing, or healthcare practicum</p>
-          </div>
-          <div class="placement-card" data-type="law_attachment" onclick="selectPlacementType('law_attachment')">
-            <h4>⚖️ Legal Attachment</h4>
-            <p>Court attendance, legal drafting, chambers attachment</p>
-          </div>
-          <div class="placement-card" data-type="industrial_training" onclick="selectPlacementType('industrial_training')">
-            <h4>🏭 Industrial Training</h4>
-            <p>Engineering, manufacturing, technical training</p>
-          </div>
-          <div class="placement-card" data-type="field_attachment" onclick="selectPlacementType('field_attachment')">
-            <h4>🌾 Field Attachment</h4>
-            <p>Agriculture, environmental, community-based fieldwork</p>
-          </div>
-          <div class="placement-card" data-type="practicum" onclick="selectPlacementType('practicum')">
-            <h4>🎓 General Practicum</h4>
-            <p>Academic practice, research, general attachment</p>
-          </div>
-        </div>
-        
-        <div id="placementGuidance" class="guidance-box" style="display: none;"></div>
-        
-        <div class="btn-group">
-          <button class="btn-secondary" onclick="document.querySelector('[data-page=\'profile\']').click()">← Back</button>
-          <button class="btn-primary" onclick="document.querySelector('[data-page=\'details\']').click()">Continue →</button>
-        </div>
-      </div>
-      
-      <!-- PLACEMENT DETAILS PAGE -->
-      <div id="page-details" class="page">
-        <h2 id="detailsTitle">📋 Placement Details</h2>
-        <div id="dynamicFields"></div>
-        <div id="placementSpecificGuidance" class="guidance-box"></div>
-        <div class="btn-group">
-          <button class="btn-secondary" onclick="document.querySelector('[data-page=\'placement\']').click()">← Back</button>
-          <button class="btn-primary" onclick="document.querySelector('[data-page=\'logbook\']').click()">Continue →</button>
-        </div>
-      </div>
-      
-      <!-- LOGBOOK PAGE -->
-      <div id="page-logbook" class="page">
-        <h2>📓 Daily Logbook</h2>
-        <div id="logbookGuidance" class="guidance-box"></div>
-        <div class="two-column">
-          <div>
-            <div class="form-group"><label>Date</label><input type="date" id="logDate"></div>
-            <div class="form-group"><label>Activity Title</label><input type="text" id="logTitle" placeholder="e.g., Lesson Delivery, Court Session"></div>
-            <div class="form-group"><label>Description (Bullet points OK)</label><textarea id="logDesc" rows="4" placeholder="List what you did, learned, observed...&#10;• Point 1&#10;• Point 2&#10;• Point 3"></textarea></div>
-            <div class="form-group"><label>Skills Learned</label><input type="text" id="logSkills" placeholder="e.g., Communication, Problem-solving"></div>
-            <div class="form-group"><label>Challenges</label><input type="text" id="logChallenges" placeholder="Any difficulties?"></div>
-            <button class="btn-primary" id="saveLogBtn">💾 Save Entry</button>
-          </div>
-          <div>
-            <h3>📋 Your Logbook Entries</h3>
-            <div id="logbookEntries"></div>
-          </div>
-        </div>
-        <div class="btn-group">
-          <button class="btn-secondary" onclick="document.querySelector('[data-page=\'details\']').click()">← Back</button>
-          <button class="btn-primary" onclick="document.querySelector('[data-page=\'report\']').click()">Continue →</button>
-        </div>
-      </div>
-      
-      <!-- REPORT BUILDER PAGE -->
-      <div id="page-report" class="page">
-        <h2>📄 Report Builder</h2>
-        <div id="sectionNav" class="section-nav"></div>
-        <div class="two-column">
-          <div>
-            <h4>📑 Report Sections</h4>
-            <div id="sectionsList"></div>
-          </div>
-          <div>
-            <h4 id="currentSectionTitle">Select a section</h4>
-            <textarea id="sectionContent" rows="12" placeholder="Write your content as bullet points... AI will expand into paragraphs for ANY chapter"></textarea>
-            <div class="btn-group" style="margin-top: 12px;">
-              <button class="btn-secondary" id="clearSectionBtn">Clear</button>
-              <button class="btn-primary" id="aiSuggestBtn">✨ AI: Expand Bullet Points</button>
+        <h1>
+            <span>📝 Internship Report Builder</span>
+            <div>
+                <span id="premiumStatus" class="status-badge">⭐ Free Trial</span>
+                <button id="upgradeHeaderBtn" class="upgrade-btn">Upgrade to Premium</button>
             </div>
-          </div>
-        </div>
-        <div class="btn-group">
-          <button class="btn-secondary" onclick="document.querySelector('[data-page=\'logbook\']').click()">← Back</button>
-          <button class="btn-primary" onclick="document.querySelector('[data-page=\'ai\']').click()">AI Enhancement →</button>
-        </div>
-      </div>
-      
-      <!-- AI TOOLS PAGE -->
-      <div id="page-ai" class="page">
-        <h2>🤖 AI Writing Assistant</h2>
-        <p style="color: #6b7280; margin-bottom: 20px;">Select a report section, then click any tool to transform your writing</p>
-        
-        <div class="ai-grid">
-          <div class="ai-card" onclick="applyAITool('expandBullets')">
-            <h4>📝 Turn Bullets into Paragraphs</h4>
-            <p>Convert bullet points into flowing paragraphs for ANY chapter</p>
-          </div>
-          <div class="ai-card" onclick="applyAITool('expandChapter1')">
-            <h4>📖 Expand Chapter 1: Introduction</h4>
-            <p>Turn introduction bullet points into professional paragraphs</p>
-          </div>
-          <div class="ai-card" onclick="applyAITool('expandChapter2')">
-            <h4>🏢 Expand Chapter 2: Background</h4>
-            <p>Turn organization background bullet points into paragraphs</p>
-          </div>
-          <div class="ai-card" onclick="applyAITool('expandChapter4')">
-            <h4>🎯 Expand Chapter 4: Skills</h4>
-            <p>Turn skills and learning bullet points into paragraphs</p>
-          </div>
-          <div class="ai-card" onclick="applyAITool('expandChapter5')">
-            <h4>⚠️ Expand Chapter 5: Challenges</h4>
-            <p>Turn challenges bullet points into detailed paragraphs</p>
-          </div>
-          <div class="ai-card" onclick="applyAITool('formal')">
-            <h4>🎓 Rewrite Formally</h4>
-            <p>Make your writing more professional</p>
-          </div>
-          <div class="ai-card" onclick="applyAITool('grammar')">
-            <h4>✅ Fix Grammar</h4>
-            <p>Correct spelling and grammar errors</p>
-          </div>
-          <div class="ai-card" onclick="applyAITool('logbookToParagraphs')">
-            <h4>📓 Convert Logbook to Report</h4>
-            <p>Turn all logbook entries into Chapter 3 paragraphs</p>
-          </div>
-          <div class="ai-card" onclick="applyAITool('recommendations')">
-            <h4>💡 Generate Recommendations</h4>
-            <p>Create professional recommendations section</p>
-          </div>
-          <div class="ai-card" onclick="applyAITool('conclusion')">
-            <h4>🎯 Generate Conclusion</h4>
-            <p>Write a comprehensive conclusion</p>
-          </div>
-        </div>
-        
-        <div style="background: #fef3c7; padding: 15px; border-radius: 12px; margin-top: 20px;">
-          <h4>💡 How to Use - Chapter by Chapter</h4>
-          <p><strong>Chapter 1 (Introduction):</strong> Write bullet points about your background, objectives, and scope → Click "Expand Chapter 1"<br>
-             <strong>Chapter 2 (Background):</strong> Write bullet points about the organization → Click "Expand Chapter 2"<br>
-             <strong>Chapter 3 (Activities):</strong> Add logbook entries → Click "Convert Logbook to Report"<br>
-             <strong>Chapter 4 (Skills):</strong> Write bullet points about skills learned → Click "Expand Chapter 4"<br>
-             <strong>Chapter 5 (Challenges):</strong> Write bullet points about challenges → Click "Expand Chapter 5"</p>
-        </div>
-        
-        <div class="btn-group">
-          <button class="btn-secondary" onclick="document.querySelector('[data-page=\'report\']').click()">← Back</button>
-          <button class="btn-primary" onclick="document.querySelector('[data-page=\'preview\']').click()">Preview Report →</button>
-        </div>
-      </div>
-      
-      <!-- PREVIEW PAGE -->
-      <div id="page-preview" class="page">
-        <h2>👁️ Report Preview</h2>
-        <div id="previewContent" class="preview-content" style="background: #f9fafb; padding: 30px; border-radius: 12px; min-height: 400px;"></div>
-        <div class="btn-group">
-          <button class="btn-secondary" onclick="document.querySelector('[data-page=\'ai\']').click()">← Back</button>
-          <button class="btn-primary" onclick="document.querySelector('[data-page=\'export\']').click()">Export →</button>
-        </div>
-      </div>
-      
-      <!-- EXPORT PAGE -->
-      <div id="page-export" class="page">
-        <h2>💾 Export Your Report</h2>
-        <div class="card-grid">
-          <div class="card" onclick="exportToWord()">
-            <h4>📄 Export to Word</h4>
-            <p>Download as .doc file - Fully formatted</p>
-          </div>
-          <div class="card" onclick="exportToPDF()">
-            <h4>📑 Export to PDF</h4>
-            <p>Download as PDF - Ready for submission</p>
-          </div>
-          <div class="card" onclick="window.print()">
-            <h4>🖨️ Print Report</h4>
-            <p>Print directly or save as PDF</p>
-          </div>
-        </div>
-        <div class="btn-group">
-          <button class="btn-secondary" onclick="document.querySelector('[data-page=\'preview\']').click()">← Back</button>
-          <button class="btn-primary" onclick="document.querySelector('[data-page=\'home\']').click()">Home →</button>
-        </div>
-      </div>
+        </h1>
+        <p>AI-powered • Fill logbook → Auto-generate report</p>
     </div>
-  </div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-  <script>
-    // ============================================
-    // APPLICATION STATE
-    // ============================================
-    let placementType = 'internship';
-    let logbookEntries = [];
-    let reportContent = {};
-    let currentSection = 'Title Page';
-    
-    const placementTypes = {
-      internship: { name: 'Internship', icon: '💼' },
-      school_practice: { name: 'School Practice', icon: '📚' },
-      clinical_placement: { name: 'Clinical Placement', icon: '🏥' },
-      law_attachment: { name: 'Legal Attachment', icon: '⚖️' },
-      industrial_training: { name: 'Industrial Training', icon: '🏭' },
-      field_attachment: { name: 'Field Attachment', icon: '🌾' },
-      practicum: { name: 'Practicum', icon: '🎓' }
-    };
-    
-    const sections = [
-      'Title Page', 'Declaration', 'Acknowledgement', 'Abstract',
-      'Chapter 1: Introduction', 'Chapter 2: Background',
-      'Chapter 3: Activities Performed', 'Chapter 4: Skills and Learning',
-      'Chapter 5: Challenges', 'Chapter 6: Recommendations',
-      'Chapter 7: Conclusion', 'References'
-    ];
-    
-    sections.forEach(s => { reportContent[s] = ''; });
-    
-    // ============================================
-    // CHAPTER-SPECIFIC AI EXPANSIONS
-    // ============================================
-    
-    function expandChapter1Introduction(bullets) {
-      const org = document.getElementById('hostOrg')?.value || 'the organization';
-      const programme = document.getElementById('programme')?.value || 'my programme';
-      const university = document.getElementById('university')?.value || 'the university';
-      
-      let intro = `This report presents a comprehensive account of the practicum experience undertaken at ${org}. `;
-      intro += `The placement was conducted as a partial requirement for the award of ${programme} at ${university}. `;
-      
-      // Extract objectives from bullets
-      if (bullets.toLowerCase().includes('objective') || bullets.toLowerCase().includes('aim')) {
-        intro += `The primary objectives of this practicum included: ${extractObjectives(bullets)} `;
-      }
-      
-      intro += `\n\n${convertBulletsToParagraphs(bullets, 'introduction')}`;
-      
-      intro += `\n\nThis report is organized into seven chapters. Chapter One provides the introduction and background to the study. Chapter Two presents the profile of the host organization. Chapter Three details the activities performed during the placement. Chapter Four discusses the skills and learning outcomes. Chapter Five highlights the challenges encountered. Chapter Six offers recommendations for improvement. Chapter Seven concludes the report.`;
-      
-      return intro;
-    }
-    
-    function expandChapter2Background(bullets) {
-      const org = document.getElementById('hostOrg')?.value || 'the organization';
-      const location = document.getElementById('location')?.value || 'its location';
-      const mission = document.getElementById('mission')?.value || '';
-      
-      let background = `${org} is located in ${location}. `;
-      if (mission) {
-        background += `The organization's mission is: "${mission}". `;
-      }
-      
-      background += `\n\n${convertBulletsToParagraphs(bullets, 'background')}`;
-      
-      return background;
-    }
-    
-    function expandChapter4Skills(bullets) {
-      let skills = `During my practicum, I developed and strengthened several professional competencies. `;
-      skills += `\n\n${convertBulletsToParagraphs(bullets, 'skills')}`;
-      skills += `\n\nThese skills are essential for my future career and have enhanced my readiness for the professional workplace. The practical exposure gained through this placement has significantly improved my confidence and competence.`;
-      return skills;
-    }
-    
-    function expandChapter5Challenges(bullets) {
-      let challenges = `Throughout the practicum period, I encountered various challenges that tested my adaptability and problem-solving abilities. `;
-      challenges += `\n\n${convertBulletsToParagraphs(bullets, 'challenges')}`;
-      challenges += `\n\nDespite these challenges, I learned valuable lessons about perseverance, professional conduct, and effective communication. Each challenge presented an opportunity for growth and learning.`;
-      return challenges;
-    }
-    
-    function extractObjectives(bullets) {
-      const lines = bullets.split('\n');
-      const objectives = [];
-      for (let line of lines) {
-        if (line.toLowerCase().includes('objective') || line.toLowerCase().includes('aim')) {
-          let clean = line.replace(/^[•\-*\d+.]\s+/, '');
-          objectives.push(clean);
-        }
-      }
-      if (objectives.length === 0) {
-        return "gaining practical experience, applying theoretical knowledge, and developing professional competencies.";
-      }
-      return objectives.join('; ');
-    }
-    
-    // Core bullet to paragraph converter - WORKS FOR ALL CHAPTERS
-    function convertBulletsToParagraphs(text, chapterType = 'general') {
-      if (!text) return '';
-      
-      const lines = text.split('\n');
-      let paragraphs = [];
-      let currentParagraph = '';
-      
-      for (let line of lines) {
-        line = line.trim();
-        if (!line) continue;
-        
-        const isBullet = /^[•\-*\d+.]\s/.test(line);
-        
-        if (isBullet) {
-          if (currentParagraph) {
-            paragraphs.push(currentParagraph);
-            currentParagraph = '';
-          }
-          let bulletText = line.replace(/^[•\-*\d+.]\s+/, '');
-          bulletText = bulletText.charAt(0).toUpperCase() + bulletText.slice(1);
-          let expanded = expandBulletForChapter(bulletText, chapterType);
-          paragraphs.push(expanded);
-        } else {
-          if (currentParagraph) {
-            currentParagraph += ' ' + line;
-          } else {
-            currentParagraph = line;
-          }
-        }
-      }
-      
-      if (currentParagraph) {
-        paragraphs.push(currentParagraph);
-      }
-      
-      return paragraphs.join('\n\n');
-    }
-    
-    function expandBulletForChapter(bulletText, chapterType) {
-      const lowerText = bulletText.toLowerCase();
-      
-      // INTRODUCTION chapter expansions
-      if (chapterType === 'introduction') {
-        if (lowerText.includes('background')) {
-          return `The background to this practicum involves ${bulletText}. This context is essential for understanding the scope and significance of the placement experience.`;
-        }
-        if (lowerText.includes('objective') || lowerText.includes('aim')) {
-          return `A key objective of this practicum was ${bulletText}. This goal guided my activities throughout the placement period.`;
-        }
-        if (lowerText.includes('scope')) {
-          return `The scope of this practicum covered ${bulletText}. These areas were selected to ensure comprehensive exposure to relevant professional practices.`;
-        }
-        return `${bulletText}. This aspect of the practicum was crucial for achieving the overall learning outcomes and professional development goals.`;
-      }
-      
-      // BACKGROUND chapter expansions
-      if (chapterType === 'background') {
-        if (lowerText.includes('mission') || lowerText.includes('vision')) {
-          return `The organization's ${bulletText}. This guiding principle shapes all organizational activities and strategic decisions.`;
-        }
-        if (lowerText.includes('department') || lowerText.includes('unit')) {
-          return `The ${bulletText}. This department was responsible for key operational functions and provided valuable learning opportunities.`;
-        }
-        if (lowerText.includes('service') || lowerText.includes('product')) {
-          return `${bulletText}. These offerings demonstrate the organization's commitment to meeting stakeholder needs and industry standards.`;
-        }
-        return `${bulletText}. Understanding this aspect of the host institution was fundamental to appreciating its role in the industry.`;
-      }
-      
-      // SKILLS chapter expansions
-      if (chapterType === 'skills') {
-        if (lowerText.includes('communication')) {
-          return `I developed strong communication skills through ${bulletText}. Effective communication proved essential for successful collaboration and task execution.`;
-        }
-        if (lowerText.includes('team') || lowerText.includes('collaboration')) {
-          return `Teamwork was enhanced as ${bulletText}. Working collaboratively taught me the value of diverse perspectives and collective problem-solving.`;
-        }
-        if (lowerText.includes('technical')) {
-          return `My technical competencies grew significantly as ${bulletText}. These hands-on technical skills are directly applicable to my future career.`;
-        }
-        if (lowerText.includes('time') || lowerText.includes('management')) {
-          return `Time management skills improved through ${bulletText}. Balancing multiple responsibilities taught me prioritization and efficient work habits.`;
-        }
-        return `${bulletText}. This skill has proven invaluable in professional settings and will serve me well in future endeavors.`;
-      }
-      
-      // CHALLENGES chapter expansions
-      if (chapterType === 'challenges') {
-        if (lowerText.includes('communication')) {
-          return `A significant communication challenge involved ${bulletText}. To address this, I initiated clearer channels of communication and sought regular feedback.`;
-        }
-        if (lowerText.includes('resource') || lowerText.includes('equipment')) {
-          return `Resource limitations presented challenges, specifically ${bulletText}. I adapted by finding creative solutions and optimizing available resources.`;
-        }
-        if (lowerText.includes('time') || lowerText.includes('deadline')) {
-          return `Meeting deadlines was challenging because ${bulletText}. I developed better time management strategies and prioritized tasks effectively.`;
-        }
-        if (lowerText.includes('supervisor') || lowerText.includes('guidance')) {
-          return `Navigating supervisor expectations was challenging as ${bulletText}. I learned to proactively seek clarification and demonstrate initiative.`;
-        }
-        return `${bulletText}. This challenge taught me resilience and the importance of maintaining a positive attitude when facing difficulties.`;
-      }
-      
-      // GENERAL / ACTIVITIES expansions
-      if (lowerText.includes('learned') || lowerText.includes('learnt')) {
-        return `One of the key takeaways from this experience was that ${bulletText}. This learning has significantly contributed to my professional development.`;
-      }
-      if (lowerText.includes('challenge')) {
-        return `A notable challenge encountered was ${bulletText}. I addressed this through problem-solving and seeking guidance from supervisors.`;
-      }
-      if (lowerText.includes('skill')) {
-        return `This activity enabled me to develop ${bulletText}. These skills are essential for my future career.`;
-      }
-      if (lowerText.includes('task') || lowerText.includes('duty')) {
-        return `One of my primary responsibilities was ${bulletText}. I approached this task with diligence and attention to detail.`;
-      }
-      if (lowerText.includes('meeting')) {
-        return `I participated in ${bulletText}. This meeting provided valuable insights into organizational decision-making processes.`;
-      }
-      if (lowerText.includes('project')) {
-        return `I was involved in ${bulletText}. This project required collaboration and application of theoretical knowledge.`;
-      }
-      if (lowerText.includes('observe')) {
-        return `I had the opportunity to observe ${bulletText}. This observation was instrumental in understanding professional standards.`;
-      }
-      
-      return `${bulletText}. This activity was significant because it provided practical exposure to real-world applications of my academic training.`;
-    }
-    
-    function expandShortContent(content, chapterType) {
-      if (!content) return '';
-      if (content.length > 300) return content;
-      
-      if (/[•\-*\d+.]/.test(content)) {
-        return convertBulletsToParagraphs(content, chapterType);
-      }
-      
-      return content;
-    }
-    
-    function convertLogbookToReport() {
-      if (logbookEntries.length === 0) {
-        return 'No logbook entries found. Please add logbook entries first.';
-      }
-      
-      let report = '';
-      let dateGroup = [];
-      
-      for (let i = 0; i < logbookEntries.length; i++) {
-        const entry = logbookEntries[i];
-        dateGroup.push(entry);
-        
-        const nextDate = logbookEntries[i + 1]?.date;
-        if (nextDate !== entry.date || i === logbookEntries.length - 1) {
-          report += writeParagraphForEntries(dateGroup);
-          dateGroup = [];
-        }
-      }
-      
-      return report;
-    }
-    
-    function writeParagraphForEntries(entries) {
-      const date = entries[0].date;
-      let paragraph = `On ${date}, `;
-      
-      const activities = entries.map(e => e.title.toLowerCase()).join(' and ');
-      paragraph += `I engaged in ${activities}. `;
-      
-      const descriptions = entries.map(e => e.description).filter(d => d);
-      if (descriptions.length > 0) {
-        paragraph += `${descriptions.join(' ')} `;
-      }
-      
-      const skills = entries.map(e => e.skills).filter(s => s);
-      if (skills.length > 0) {
-        paragraph += `Through these activities, I developed skills including ${skills.join(', ')}. `;
-      }
-      
-      const challenges = entries.map(e => e.challenges).filter(c => c);
-      if (challenges.length > 0) {
-        paragraph += `I encountered challenges such as ${challenges[0]}, which I addressed through problem-solving. `;
-      }
-      
-      paragraph += `These experiences contributed significantly to my practical understanding of professional responsibilities.\n\n`;
-      
-      return paragraph;
-    }
-    
-    function generateRecommendations() {
-      const org = document.getElementById('hostOrg')?.value || 'the organization';
-      const typeName = placementTypes[placementType]?.name || 'practicum';
-      
-      return `Based on my ${typeName} experience at ${org}, I offer the following recommendations:\n\n` +
-        `1. Future students should conduct thorough research about the organization's operations and expectations before commencing their practicum. This preparation will help them integrate more effectively into the workplace environment.\n\n` +
-        `2. The university should strengthen pre-placement orientation programs to better prepare students for professional workplace expectations, communication protocols, and ethical standards.\n\n` +
-        `3. Students should maintain consistent and detailed logbook documentation throughout the placement period, recording both successes and challenges to facilitate comprehensive report writing.\n\n` +
-        `4. The host organization should provide structured mentorship programs with regular feedback sessions to enhance student learning outcomes and professional development.\n\n` +
-        `5. Regular progress review meetings involving the university supervisor, host supervisor, and student would improve communication and ensure that learning objectives are being met throughout the practicum period.`;
-    }
-    
-    function generateConclusion() {
-      const org = document.getElementById('hostOrg')?.value || 'the host organization';
-      const typeName = placementTypes[placementType]?.name || 'practicum';
-      const skills = logbookEntries.filter(e => e.skills).map(e => e.skills).slice(0, 3).join(', ');
-      
-      let conclusion = `In conclusion, my ${typeName} at ${org} was a transformative learning experience that significantly contributed to my professional and personal development. `;
-      conclusion += `Throughout the placement period, I was exposed to real-world work environments that challenged me to apply theoretical knowledge gained from my academic programme. `;
-      
-      if (skills) {
-        conclusion += `I developed practical competencies including ${skills}, which are essential for my future career success. `;
-      }
-      
-      conclusion += `The experience successfully bridged the gap between classroom learning and professional practice, providing me with valuable insights into workplace dynamics. `;
-      conclusion += `I encountered various challenges that strengthened my problem-solving abilities, resilience, and adaptability. `;
-      conclusion += `I am deeply grateful to the university administration, my supervisors, and the host organization for this invaluable opportunity. `;
-      conclusion += `The lessons learned and skills acquired will undoubtedly guide my professional journey and future career endeavors.`;
-      
-      return conclusion;
-    }
-    
-    // ============================================
-    // AI TOOL DISPATCHER
-    // ============================================
-    
-    function applyAITool(tool) {
-      const content = document.getElementById('sectionContent')?.value || reportContent[currentSection] || '';
-      let result = '';
-      
-      switch(tool) {
-        case 'expandBullets':
-          if (!content) { alert('Please write some bullet points first.'); return; }
-          result = convertBulletsToParagraphs(content, 'general');
-          break;
-        case 'expandChapter1':
-          if (!content) { alert('Please write bullet points for Chapter 1.'); return; }
-          result = expandChapter1Introduction(content);
-          break;
-        case 'expandChapter2':
-          if (!content) { alert('Please write bullet points for Chapter 2.'); return; }
-          result = expandChapter2Background(content);
-          break;
-        case 'expandChapter4':
-          if (!content) { alert('Please write bullet points for Chapter 4.'); return; }
-          result = expandChapter4Skills(content);
-          break;
-        case 'expandChapter5':
-          if (!content) { alert('Please write bullet points for Chapter 5.'); return; }
-          result = expandChapter5Challenges(content);
-          break;
-        case 'formal':
-          if (!content) { alert('Please write some content first.'); return; }
-          result = makeFormal(content);
-          break;
-        case 'grammar':
-          if (!content) { alert('Please write some content first.'); return; }
-          result = fixGrammar(content);
-          break;
-        case 'logbookToParagraphs':
-          result = convertLogbookToReport();
-          break;
-        case 'recommendations':
-          result = generateRecommendations();
-          break;
-        case 'conclusion':
-          result = generateConclusion();
-          break;
-        default:
-          result = content;
-      }
-      
-      if (document.getElementById('sectionContent')) {
-        document.getElementById('sectionContent').value = result;
-        reportContent[currentSection] = result;
-        alert(`✨ ${getToolDisplayName(tool)} applied successfully!`);
-        renderReportBuilder();
-      }
-    }
-    
-    function getToolDisplayName(tool) {
-      const names = {
-        expandBullets: 'Turn Bullets into Paragraphs',
-        expandChapter1: 'Expand Chapter 1: Introduction',
-        expandChapter2: 'Expand Chapter 2: Background',
-        expandChapter4: 'Expand Chapter 4: Skills',
-        expandChapter5: 'Expand Chapter 5: Challenges',
-        formal: 'Rewrite Formally',
-        grammar: 'Fix Grammar',
-        logbookToParagraphs: 'Convert Logbook to Report',
-        recommendations: 'Generate Recommendations',
-        conclusion: 'Generate Conclusion'
-      };
-      return names[tool] || tool;
-    }
-    
-    function makeFormal(content) {
-      const replacements = {
-        'got to': 'had the opportunity to',
-        'a lot of': 'numerous',
-        'I think': 'It is evident that',
-        'stuff': 'materials and resources',
-        'things': 'tasks and responsibilities',
-        'good': 'beneficial',
-        'bad': 'challenging',
-        'get': 'obtain',
-        'use': 'utilize',
-        'show': 'demonstrate',
-        'help': 'facilitate',
-        'make': 'produce',
-        'very': 'extremely',
-        'really': 'significantly'
-      };
-      
-      let formal = content;
-      for (const [informal, formalWord] of Object.entries(replacements)) {
-        const regex = new RegExp(`\\b${informal}\\b`, 'gi');
-        formal = formal.replace(regex, formalWord);
-      }
-      return formal;
-    }
-    
-    function fixGrammar(content) {
-      return content
-        .replace(/\s+/g, ' ')
-        .replace(/\.\.+/g, '.')
-        .replace(/\bi\b/g, 'I')
-        .replace(/\bi'm\b/g, 'I am')
-        .replace(/\bdont\b/g, 'do not')
-        .replace(/\bdoesnt\b/g, 'does not')
-        .replace(/\bwasnt\b/g, 'was not')
-        .replace(/\bcant\b/g, 'cannot');
-    }
-    
-    // ============================================
-    // NAVIGATION & UI FUNCTIONS
-    // ============================================
-    
-    function selectPlacementType(type) {
-      placementType = type;
-      document.querySelectorAll('.placement-card').forEach(card => {
-        card.classList.remove('active');
-        if (card.dataset.type === type) card.classList.add('active');
-      });
-      
-      const guidance = {
-        internship: 'Focus on corporate culture, professional skills, teamwork, project contributions.',
-        school_practice: 'Focus on lesson planning, teaching methods, classroom management.',
-        clinical_placement: 'Focus on patient care, medical procedures, infection control.',
-        law_attachment: 'Focus on court sessions, legal drafting, research, client meetings.',
-        industrial_training: 'Focus on technical skills, equipment handling, safety procedures.',
-        field_attachment: 'Focus on field visits, data collection, community engagement.',
-        practicum: 'Focus on professional development, workplace integration.'
-      };
-      
-      const guidanceBox = document.getElementById('placementGuidance');
-      guidanceBox.style.display = 'block';
-      guidanceBox.innerHTML = `<strong>📌 ${placementTypes[type].name} Tips:</strong><br>${guidance[type]}`;
-      
-      updateDynamicFields(type);
-    }
-    
-    function updateDynamicFields(type) {
-      const container = document.getElementById('dynamicFields');
-      container.innerHTML = `
-        <div class="two-column">
-          <div>
-            <div class="form-group"><label>Host Organization</label><input type="text" id="hostOrg" placeholder="Organization name"></div>
-            <div class="form-group"><label>Department/Unit</label><input type="text" id="department" placeholder="Department"></div>
-            <div class="form-group"><label>Supervisor Name</label><input type="text" id="supervisor" placeholder="Supervisor's name"></div>
-          </div>
-          <div>
-            <div class="form-group"><label>Start Date</label><input type="date" id="startDate"></div>
-            <div class="form-group"><label>End Date</label><input type="date" id="endDate"></div>
-            <div class="form-group"><label>Location</label><input type="text" id="location" placeholder="City, Country"></div>
-          </div>
-        </div>
-        <div class="form-group"><label>Organization Mission</label><textarea id="mission" rows="3" placeholder="What does the organization do?"></textarea></div>
-      `;
-    }
-    
-    document.querySelectorAll('.nav-btn').forEach(btn => {
-      btn.addEventListener('click', function() {
-        const pageName = this.dataset.page;
-        document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
-        document.getElementById(`page-${pageName}`).classList.add('active');
-        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-        this.classList.add('active');
-        if (pageName === 'preview') updatePreview();
-        if (pageName === 'report') renderReportBuilder();
-      });
-    });
-    
-    function saveLogbookEntry() {
-      const entry = {
-        id: Date.now(),
-        date: document.getElementById('logDate').value,
-        title: document.getElementById('logTitle').value,
-        description: document.getElementById('logDesc').value,
-        skills: document.getElementById('logSkills').value,
-        challenges: document.getElementById('logChallenges').value
-      };
-      
-      if (!entry.date || !entry.title) {
-        alert('Please fill in date and activity title');
-        return;
-      }
-      
-      logbookEntries.push(entry);
-      renderLogbookEntries();
-      
-      document.getElementById('logDate').value = '';
-      document.getElementById('logTitle').value = '';
-      document.getElementById('logDesc').value = '';
-      document.getElementById('logSkills').value = '';
-      document.getElementById('logChallenges').value = '';
-      
-      alert('Entry saved! AI can now convert this to report paragraphs.');
-    }
-    
-    function renderLogbookEntries() {
-      const container = document.getElementById('logbookEntries');
-      if (!container) return;
-      
-      if (logbookEntries.length === 0) {
-        container.innerHTML = '<p style="color: #6b7280;">No entries yet. Add your first logbook entry.</p>';
-        return;
-      }
-      
-      container.innerHTML = logbookEntries.map(entry => `
-        <div class="log-entry">
-          <strong>📅 ${entry.date}</strong>
-          <h4>${escapeHtml(entry.title)}</h4>
-          <p>${escapeHtml(entry.description.substring(0, 100))}${entry.description.length > 100 ? '...' : ''}</p>
-          ${entry.skills ? `<p><strong>Skills:</strong> ${escapeHtml(entry.skills)}</p>` : ''}
-          <button onclick="deleteLogEntry(${entry.id})" style="padding: 5px 10px; font-size: 12px; background: #ef4444; color: white; margin-top: 8px;">Delete</button>
-        </div>
-      `).join('');
-    }
-    
-    function deleteLogEntry(id) {
-      logbookEntries = logbookEntries.filter(e => e.id !== id);
-      renderLogbookEntries();
-    }
-    
-    function renderReportBuilder() {
-      const navContainer = document.getElementById('sectionNav');
-      if (navContainer) {
-        navContainer.innerHTML = sections.map(section => `
-          <button class="section-btn ${currentSection === section ? 'active' : ''}" onclick="selectSection('${section.replace(/'/g, "\\'")}')">
-            ${section.length > 20 ? section.substring(0, 18) + '...' : section}
-          </button>
-        `).join('');
-      }
-      
-      const sectionsContainer = document.getElementById('sectionsList');
-      if (sectionsContainer) {
-        sectionsContainer.innerHTML = sections.map(section => `
-          <div class="card" onclick="selectSection('${section.replace(/'/g, "\\'")}')" style="${currentSection === section ? 'border-color: #10b981; background: #f0fdf4;' : ''}">
-            <h4>${section}</h4>
-            <p>${reportContent[section] ? (reportContent[section].substring(0, 60) + '...') : 'Click to write content'}</p>
-          </div>
-        `).join('');
-      }
-      
-      const titleEl = document.getElementById('currentSectionTitle');
-      if (titleEl) titleEl.innerHTML = `✏️ ${currentSection}`;
-      
-      const contentEl = document.getElementById('sectionContent');
-      if (contentEl) contentEl.value = reportContent[currentSection] || '';
-    }
-    
-    function selectSection(section) {
-      currentSection = section;
-      renderReportBuilder();
-    }
-    
-    function updatePreview() {
-      const studentName = document.getElementById('fullName')?.value || 'Student Name';
-      const regNumber = document.getElementById('regNumber')?.value || '';
-      const university = document.getElementById('university')?.value || 'University';
-      const org = document.getElementById('hostOrg')?.value || 'Organization';
-      const typeName = placementTypes[placementType]?.name || 'Practicum';
-      
-      let html = `
-        <div style="text-align: center; margin-bottom: 40px;">
-          <h1 style="color: #10b981;">${escapeHtml(studentName)}</h1>
-          <h3>${typeName} Report</h3>
-          <p>${escapeHtml(university)}</p>
-          ${regNumber ? `<p><strong>Registration:</strong> ${escapeHtml(regNumber)}</p>` : ''}
-          <p><strong>Host Organization:</strong> ${escapeHtml(org)}</p>
-        </div>
-      `;
-      
-      for (const [section, content] of Object.entries(reportContent)) {
-        if (content && content.trim()) {
-          html += `
-            <div style="margin-bottom: 35px; page-break-inside: avoid;">
-              <h2 style="color: #10b981; border-bottom: 2px solid #10b981; padding-bottom: 8px;">${escapeHtml(section)}</h2>
-              <div style="line-height: 1.6;">${escapeHtml(content).replace(/\n/g, '<br>')}</div>
+    <div class="container">
+        <!-- LEFT PANEL: INPUTS -->
+        <div class="left-panel">
+            <!-- Student Profile -->
+            <div class="card">
+                <h2>👨‍🎓 Student Profile</h2>
+                <label>Full Name</label>
+                <input type="text" id="studentName" placeholder="e.g., Kantono Rehema">
+                <label>Registration Number</label>
+                <input type="text" id="studentId" placeholder="e.g., 123-345587-374686">
+                <label>University</label>
+                <input type="text" id="university" placeholder="e.g., Islamic University in Uganda">
+                <label>Programme</label>
+                <input type="text" id="programme" placeholder="e.g., Bachelor of Mass Communication">
+                <label>Academic Supervisor</label>
+                <input type="text" id="supervisor" placeholder="e.g., Dr. Sarah Mukasa">
             </div>
-          `;
+
+            <!-- Organization Details -->
+            <div class="card">
+                <h2>🏢 Organization Details</h2>
+                <label>Organization Name</label>
+                <input type="text" id="orgName" placeholder="e.g., Daily Monitor">
+                <label>Department</label>
+                <input type="text" id="department" placeholder="e.g., News Department">
+                <label>Location</label>
+                <input type="text" id="orgLocation" placeholder="e.g., Mbale, Uganda">
+                <label>Workplace Supervisor</label>
+                <input type="text" id="workSupervisor" placeholder="e.g., Mr. John Okello">
+                <label>Internship Period</label>
+                <div style="display: flex; gap: 0.5rem;">
+                    <input type="month" id="startDate" placeholder="Start">
+                    <input type="month" id="endDate" placeholder="End">
+                </div>
+            </div>
+
+            <!-- Daily Logbook -->
+            <div class="card" id="logbookSection">
+                <div class="flex-between">
+                    <h2>📓 Daily Logbook</h2>
+                    <span id="logCount" class="status-badge">0 entries</span>
+                </div>
+                <p style="font-size: 0.8rem; color: #666; margin-bottom: 1rem;">Add what you did each day - AI will convert to report chapters</p>
+                
+                <div id="logEntriesList"></div>
+                
+                <div id="addLogForm">
+                    <label>Date</label>
+                    <input type="date" id="logDate">
+                    <label>Activity / Task</label>
+                    <input type="text" id="logActivity" placeholder="e.g., Editorial meeting, Story writing">
+                    <label>What did you do? (Detailed)</label>
+                    <textarea id="logDescription" rows="2" placeholder="Describe what you actually did..."></textarea>
+                    <label>Skills developed (comma separated)</label>
+                    <input type="text" id="logSkills" placeholder="e.g., listening, writing, critical thinking">
+                    <label>Challenges faced & solutions</label>
+                    <textarea id="logChallenges" rows="2" placeholder="What challenges? How did you overcome them?"></textarea>
+                    <button id="addLogBtn" class="btn">+ Add Log Entry</button>
+                </div>
+                
+                <div id="premiumLimitWarning" style="display: none; margin-top: 1rem; padding: 0.8rem; background: #fff3cd; border-radius: 8px; text-align: center;">
+                    ⭐ Free trial: 5 log entries only. <button id="upgradeFromLimitBtn" class="upgrade-btn" style="margin-left: 0.5rem;">Upgrade to Premium</button> for unlimited entries.
+                </div>
+            </div>
+
+            <!-- Generate Report Button -->
+            <div class="card">
+                <button id="generateReportBtn" class="btn btn-premium" style="width: 100%; padding: 1rem; font-size: 1.1rem;">✨ Generate Full Report from Logbook</button>
+                <p style="font-size: 0.75rem; color: #666; margin-top: 0.5rem; text-align: center;">Premium feature • Turns your logbook entries into complete Chapters 3, 4, 5</p>
+            </div>
+        </div>
+
+        <!-- RIGHT PANEL: REPORT PREVIEW -->
+        <div class="right-panel">
+            <div class="report-preview" id="reportPreview">
+                <h1 style="text-align: center;">INTERNSHIP REPORT</h1>
+                <p style="text-align: center;" id="previewStudentName">Student Name</p>
+                <p style="text-align: center;" id="previewUniversity">University</p>
+                <hr>
+                <div id="reportContent">
+                    <p style="color: #999; text-align: center;">Fill in your details and add logbook entries. Click "Generate Report" to see your professional report here.</p>
+                </div>
+            </div>
+            
+            <div style="margin-top: 1rem; display: flex; gap: 1rem; justify-content: center;">
+                <button id="exportPDFBtn" class="btn" style="background: #dc3545;">📑 Export to PDF</button>
+                <button id="exportWordBtn" class="btn btn-outline">📄 Export to Word</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Premium Modal -->
+    <div id="premiumModal" class="modal">
+        <div class="modal-content">
+            <h2>⭐ Upgrade to Premium</h2>
+            <p style="color: #1a4a6f; font-size: 1.5rem; font-weight: bold;">UGX 25,000</p>
+            <p>One-time payment • Lifetime access</p>
+            <ul class="feature-list">
+                <li>✅ Unlimited log entries</li>
+                <li>✅ AI generate full report from logbook</li>
+                <li>✅ Grammar fix for all content</li>
+                <li>✅ Export to PDF & Word</li>
+                <li>✅ Quality score & suggestions</li>
+                <li>✅ Remove "Free Trial" watermark</li>
+            </ul>
+            <button id="payWithPesapalBtn" class="btn" style="background: #28a745; width: 100%; margin: 0.5rem 0;">💳 Pay with Pesapal</button>
+            <button id="startTrialBtn" class="btn-outline" style="width: 100%; padding: 0.7rem;">🎁 Start 7-Day Free Trial</button>
+            <button id="closeModalBtn" style="margin-top: 1rem; background: none; border: none; color: #999; cursor: pointer;">Close</button>
+        </div>
+    </div>
+
+    <script>
+        // ========================================
+        // INTERNSHIP REPORT BUILDER - COMPLETE WORKING VERSION
+        // Logbook → Auto-Generate Report
+        // Premium tiers with Pesapal
+        // ========================================
+
+        // State
+        let isPremium = localStorage.getItem('premiumUnlocked') === 'true';
+        let trialEnds = localStorage.getItem('trialEnds');
+        let logbookEntries = [];
+
+        // Load saved data
+        function loadData() {
+            const saved = localStorage.getItem('internshipReportData');
+            if (saved) {
+                const data = JSON.parse(saved);
+                logbookEntries = data.logbookEntries || [];
+                // Restore form values
+                if (data.studentName) document.getElementById('studentName').value = data.studentName;
+                if (data.studentId) document.getElementById('studentId').value = data.studentId;
+                if (data.university) document.getElementById('university').value = data.university;
+                if (data.programme) document.getElementById('programme').value = data.programme;
+                if (data.supervisor) document.getElementById('supervisor').value = data.supervisor;
+                if (data.orgName) document.getElementById('orgName').value = data.orgName;
+                if (data.department) document.getElementById('department').value = data.department;
+                if (data.orgLocation) document.getElementById('orgLocation').value = data.orgLocation;
+                if (data.workSupervisor) document.getElementById('workSupervisor').value = data.workSupervisor;
+                if (data.startDate) document.getElementById('startDate').value = data.startDate;
+                if (data.endDate) document.getElementById('endDate').value = data.endDate;
+            }
+            renderLogbook();
+            updatePremiumUI();
+            checkTrial();
         }
-      }
-      
-      document.getElementById('previewContent').innerHTML = html;
-    }
-    
-    function exportToWord() {
-      updatePreview();
-      const studentName = document.getElementById('fullName')?.value || 'Student';
-      const content = document.getElementById('previewContent')?.innerHTML || '';
-      
-      const fullHtml = `<!DOCTYPE html>
-      <html>
-      <head><meta charset="UTF-8"><title>Practicum Report - ${studentName}</title>
-      <style>body{font-family:Calibri;margin:2.54cm;line-height:1.5}h1{color:#10b981}h2{color:#8b5cf6;border-bottom:2px solid #10b981;}</style>
-      </head><body>${content}</body></html>`;
-      
-      const blob = new Blob([fullHtml], { type: 'application/msword' });
-      const link = document.createElement('a');
-      link.href = URL.createObjectURL(blob);
-      link.download = `Practicum_Report_${studentName.replace(/\s/g, '_')}.doc`;
-      link.click();
-      URL.revokeObjectURL(link.href);
-      alert('✅ Report exported to Word!');
-    }
-    
-    function exportToPDF() {
-      updatePreview();
-      const element = document.getElementById('previewContent');
-      if (!element || !element.innerHTML.trim()) {
-        alert('No content to export.');
-        return;
-      }
-      
-      const studentName = document.getElementById('fullName')?.value || 'Student';
-      const opt = {
-        margin: [0.5, 0.5, 0.5, 0.5],
-        filename: `Practicum_Report_${studentName.replace(/\s/g, '_')}.pdf`,
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2 },
-        jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
-      };
-      
-      html2pdf().set(opt).from(element).save().then(() => {
-        alert('✅ PDF exported successfully!');
-      }).catch(() => {
-        alert('PDF export failed. Please use Print option.');
-      });
-    }
-    
-    function unlockPremium() {
-      document.getElementById('premiumBadge').innerHTML = '⭐ PREMIUM ACTIVE';
-      document.getElementById('premiumBadge').classList.add('premium');
-      alert('✨ Premium unlocked! All AI features are now available for all chapters.');
-    }
-    
-    function escapeHtml(str) {
-      if (!str) return '';
-      return str.replace(/[&<>]/g, function(m) {
-        if (m === '&') return '&amp;';
-        if (m === '<') return '&lt;';
-        if (m === '>') return '&gt;';
-        return m;
-      });
-    }
-    
-    document.getElementById('saveLogBtn')?.addEventListener('click', saveLogbookEntry);
-    document.getElementById('clearSectionBtn')?.addEventListener('click', () => {
-      if (confirm('Clear this section?')) {
-        reportContent[currentSection] = '';
-        document.getElementById('sectionContent').value = '';
-        renderReportBuilder();
-        alert('Section cleared!');
-      }
-    });
-    
-    document.getElementById('sectionContent')?.addEventListener('input', function(e) {
-      reportContent[currentSection] = e.target.value;
-    });
-    
-    document.getElementById('aiSuggestBtn')?.addEventListener('click', () => {
-      const content = document.getElementById('sectionContent').value;
-      if (!content) {
-        alert('Please write some bullet points first.');
-        return;
-      }
-      
-      let chapterType = 'general';
-      if (currentSection.includes('Introduction')) chapterType = 'introduction';
-      else if (currentSection.includes('Background')) chapterType = 'background';
-      else if (currentSection.includes('Skills')) chapterType = 'skills';
-      else if (currentSection.includes('Challenges')) chapterType = 'challenges';
-      
-      const expanded = convertBulletsToParagraphs(content, chapterType);
-      document.getElementById('sectionContent').value = expanded;
-      reportContent[currentSection] = expanded;
-      alert(`✨ Bullet points converted to paragraphs for ${currentSection}!`);
-      renderReportBuilder();
-    });
-    
-    // Initialize
-    renderLogbookEntries();
-    renderReportBuilder();
-    updateDynamicFields('internship');
-    console.log('✅ App ready! Chapter-specific AI expansions working for Chapters 1, 2, 3, 4, 5');
-  </script>
+
+        function saveData() {
+            const data = {
+                logbookEntries,
+                studentName: document.getElementById('studentName').value,
+                studentId: document.getElementById('studentId').value,
+                university: document.getElementById('university').value,
+                programme: document.getElementById('programme').value,
+                supervisor: document.getElementById('supervisor').value,
+                orgName: document.getElementById('orgName').value,
+                department: document.getElementById('department').value,
+                orgLocation: document.getElementById('orgLocation').value,
+                workSupervisor: document.getElementById('workSupervisor').value,
+                startDate: document.getElementById('startDate').value,
+                endDate: document.getElementById('endDate').value
+            };
+            localStorage.setItem('internshipReportData', JSON.stringify(data));
+        }
+
+        // Check free trial
+        function checkTrial() {
+            if (trialEnds && new Date() < new Date(trialEnds)) {
+                isPremium = true;
+                localStorage.setItem('premiumUnlocked', 'true');
+                showAlert('Free trial active! Premium features unlocked.', 'success');
+            } else if (trialEnds && new Date() >= new Date(trialEnds)) {
+                isPremium = false;
+                localStorage.setItem('premiumUnlocked', 'false');
+                showAlert('Free trial expired. Upgrade to continue using premium features.', 'warning');
+            }
+            updatePremiumUI();
+        }
+
+        function startFreeTrial() {
+            const trialEnd = new Date();
+            trialEnd.setDate(trialEnd.getDate() + 7);
+            localStorage.setItem('trialEnds', trialEnd.toISOString());
+            localStorage.setItem('premiumUnlocked', 'true');
+            isPremium = true;
+            updatePremiumUI();
+            closeModal();
+            showAlert('7-day free trial started! Enjoy premium features.', 'success');
+            renderLogbook();
+        }
+
+        function updatePremiumUI() {
+            const statusSpan = document.getElementById('premiumStatus');
+            const limitWarning = document.getElementById('premiumLimitWarning');
+            
+            if (isPremium) {
+                statusSpan.innerHTML = '⭐ Premium Unlocked';
+                statusSpan.style.background = '#28a745';
+                statusSpan.style.color = 'white';
+                if (limitWarning) limitWarning.style.display = 'none';
+                document.body.classList.add('premium-unlocked');
+            } else {
+                statusSpan.innerHTML = '⭐ Free Trial';
+                statusSpan.style.background = '#ffc107';
+                statusSpan.style.color = '#1a2a3a';
+                if (limitWarning && logbookEntries.length >= 5) {
+                    limitWarning.style.display = 'block';
+                }
+                document.body.classList.remove('premium-unlocked');
+            }
+        }
+
+        // Add log entry
+        function addLogEntry() {
+            const date = document.getElementById('logDate').value;
+            const activity = document.getElementById('logActivity').value;
+            const description = document.getElementById('logDescription').value;
+            const skills = document.getElementById('logSkills').value;
+            const challenges = document.getElementById('logChallenges').value;
+
+            if (!date || !activity) {
+                showAlert('Please enter at least Date and Activity', 'warning');
+                return;
+            }
+
+            if (!isPremium && logbookEntries.length >= 5) {
+                showAlert('Free trial limited to 5 entries. Upgrade to premium for unlimited.', 'warning');
+                document.getElementById('premiumLimitWarning').style.display = 'block';
+                return;
+            }
+
+            logbookEntries.push({
+                id: Date.now(),
+                date,
+                activity,
+                description,
+                skills,
+                challenges
+            });
+
+            // Clear form
+            document.getElementById('logDate').value = '';
+            document.getElementById('logActivity').value = '';
+            document.getElementById('logDescription').value = '';
+            document.getElementById('logSkills').value = '';
+            document.getElementById('logChallenges').value = '';
+
+            renderLogbook();
+            saveData();
+            showAlert('Log entry added!', 'success');
+        }
+
+        function deleteLogEntry(id) {
+            logbookEntries = logbookEntries.filter(entry => entry.id !== id);
+            renderLogbook();
+            saveData();
+            showAlert('Entry deleted', 'info');
+        }
+
+        function renderLogbook() {
+            const container = document.getElementById('logEntriesList');
+            const logCountSpan = document.getElementById('logCount');
+            
+            if (!container) return;
+            
+            logCountSpan.innerText = `${logbookEntries.length} entries`;
+            
+            if (logbookEntries.length === 0) {
+                container.innerHTML = '<p style="color: #999; text-align: center; padding: 1rem;">No log entries yet. Add your first day above.</p>';
+                return;
+            }
+            
+            container.innerHTML = logbookEntries.map(entry => `
+                <div class="log-entry">
+                    <div class="flex-between">
+                        <span class="log-date">📅 ${entry.date}</span>
+                        <button class="delete-btn" onclick="deleteLogEntry(${entry.id})">Delete</button>
+                    </div>
+                    <div><strong>${escapeHtml(entry.activity)}</strong></div>
+                    <div style="font-size: 0.85rem; color: #555;">${escapeHtml(entry.description || '')}</div>
+                    ${entry.skills ? `<div style="font-size: 0.8rem; color: #1a4a6f; margin-top: 0.3rem;">🏆 Skills: ${escapeHtml(entry.skills)}</div>` : ''}
+                    ${entry.challenges ? `<div style="font-size: 0.8rem; color: #dc3545; margin-top: 0.3rem;">⚠️ Challenges: ${escapeHtml(entry.challenges)}</div>` : ''}
+                </div>
+            `).join('');
+            
+            updatePremiumUI();
+        }
+
+        // Generate report from logbook (Premium feature)
+        function generateReport() {
+            if (!isPremium) {
+                showModal();
+                showAlert('Please upgrade to premium to generate full report', 'warning');
+                return;
+            }
+
+            if (logbookEntries.length === 0) {
+                showAlert('Please add logbook entries first', 'warning');
+                return;
+            }
+
+            const studentName = document.getElementById('studentName').value || 'Student Name';
+            const studentId = document.getElementById('studentId').value || '';
+            const university = document.getElementById('university').value || 'University Name';
+            const programme = document.getElementById('programme').value || '';
+            const supervisor = document.getElementById('supervisor').value || '';
+            const orgName = document.getElementById('orgName').value || 'Organization';
+            const department = document.getElementById('department').value || '';
+            const orgLocation = document.getElementById('orgLocation').value || '';
+            const workSupervisor = document.getElementById('workSupervisor').value || '';
+            const startDate = document.getElementById('startDate').value || '';
+            const endDate = document.getElementById('endDate').value || '';
+            const currentDate = new Date().toLocaleDateString('en-GB');
+
+            // Chapter 3: Activities from logbook
+            let chapter3 = '';
+            logbookEntries.forEach(entry => {
+                chapter3 += `
+                    <div class="activity-entry">
+                        <h4>${entry.date}: ${escapeHtml(entry.activity)}</h4>
+                        <p>${escapeHtml(entry.description || 'No description provided.')}</p>
+                        ${entry.skills ? `<p><strong>Skills developed:</strong> ${escapeHtml(entry.skills)}</p>` : ''}
+                        ${entry.challenges ? `<p><strong>Challenges encountered:</strong> ${escapeHtml(entry.challenges)}</p>` : ''}
+                    </div>
+                `;
+            });
+
+            // Chapter 4: Extract all unique skills
+            const allSkills = [...new Set(logbookEntries.flatMap(e => 
+                e.skills ? e.skills.split(',').map(s => s.trim()) : []
+            ))];
+            let chapter4 = `<p>During this internship, I developed the following professional competencies: <strong>${allSkills.join(', ') || 'Various practical skills'}</strong>.</p>`;
+
+            // Chapter 5: Extract challenges
+            const allChallenges = logbookEntries.filter(e => e.challenges).map(e => e.challenges);
+            let chapter5 = allChallenges.length > 0 
+                ? `<ul>${allChallenges.map(c => `<li>${escapeHtml(c)}</li>`).join('')}</ul>`
+                : `<p>Various challenges were encountered and successfully overcome during the internship period.</p>`;
+
+            // Full report HTML
+            const reportHTML = `
+                <div class="report-document">
+                    <div style="text-align: center; margin-bottom: 2rem;">
+                        <h1>INTERNSHIP REPORT</h1>
+                        <p>Submitted in partial fulfillment of the requirements for ${programme}</p>
+                        <hr>
+                        <p><strong>Name:</strong> ${escapeHtml(studentName)} (${escapeHtml(studentId)})</p>
+                        <p><strong>University:</strong> ${escapeHtml(university)}</p>
+                        <p><strong>Supervisor:</strong> ${escapeHtml(supervisor)}</p>
+                        <p><strong>Organization:</strong> ${escapeHtml(orgName)} - ${escapeHtml(department)}</p>
+                        <p><strong>Location:</strong> ${escapeHtml(orgLocation)}</p>
+                        <p><strong>Internship Period:</strong> ${startDate} to ${endDate}</p>
+                        <p><strong>Workplace Supervisor:</strong> ${escapeHtml(workSupervisor)}</p>
+                        <p><strong>Submission Date:</strong> ${currentDate}</p>
+                    </div>
+
+                    <h2>DECLARATION</h2>
+                    <p>I, ${escapeHtml(studentName)}, hereby declare that this internship report is my original work and has not been submitted for any other qualification.</p>
+
+                    <h2>ACKNOWLEDGEMENT</h2>
+                    <p>I wish to express my sincere gratitude to my university supervisor, ${escapeHtml(supervisor)}, and workplace supervisor, ${escapeHtml(workSupervisor)}, for their guidance and support throughout this internship.</p>
+
+                    <h2>ABSTRACT</h2>
+                    <p>This report documents the internship experience at ${escapeHtml(orgName)} from ${startDate} to ${endDate}. The placement provided valuable practical exposure in ${escapeHtml(department)}. Key activities included daily tasks detailed in the logbook. Significant skills were developed, and challenges were successfully overcome.</p>
+
+                    <h2>CHAPTER ONE: INTRODUCTION</h2>
+                    <p>This internship was undertaken at ${escapeHtml(orgName)} in the ${escapeHtml(department)} department. The primary objectives were to apply theoretical knowledge, gain practical skills, and develop professional competencies.</p>
+
+                    <h2>CHAPTER TWO: ORGANIZATION PROFILE</h2>
+                    <p>${escapeHtml(orgName)} is located at ${escapeHtml(orgLocation)}. The ${escapeHtml(department)} department is supervised by ${escapeHtml(workSupervisor)}.</p>
+
+                    <h2>CHAPTER THREE: ACTIVITIES PERFORMED</h2>
+                    ${chapter3}
+
+                    <h2>CHAPTER FOUR: SKILLS AND LEARNING OUTCOMES</h2>
+                    ${chapter4}
+                    <p>These skills will significantly benefit my future career development.</p>
+
+                    <h2>CHAPTER FIVE: CHALLENGES AND SOLUTIONS</h2>
+                    ${chapter5}
+
+                    <h2>CHAPTER SIX: RECOMMENDATIONS</h2>
+                    <ul>
+                        <li>Future students should maintain consistent logbook documentation.</li>
+                        <li>The university should strengthen pre-internship orientation.</li>
+                        <li>Host organizations should provide structured mentorship.</li>
+                    </ul>
+
+                    <h2>CHAPTER SEVEN: CONCLUSION</h2>
+                    <p>The internship at ${escapeHtml(orgName)} was a transformative learning experience. The practical exposure gained will undoubtedly guide my future professional endeavors.</p>
+
+                    <h2>REFERENCES</h2>
+                    <p>${escapeHtml(university)} Internship Guidelines Handbook (${new Date().getFullYear()})</p>
+                </div>
+            `;
+
+            document.getElementById('reportContent').innerHTML = reportHTML;
+            document.getElementById('previewStudentName').innerHTML = studentName;
+            document.getElementById('previewUniversity').innerHTML = university;
+            
+            showAlert('Report generated successfully! You can now export to PDF/Word.', 'success');
+        }
+
+        // Export functions
+        function exportToPDF() {
+            if (!isPremium) {
+                showModal();
+                showAlert('Export to PDF is a premium feature', 'warning');
+                return;
+            }
+            const element = document.getElementById('reportPreview');
+            html2pdf().from(element).set({
+                margin: 0.5,
+                filename: `Internship_Report_${document.getElementById('studentName').value || 'Student'}.pdf`,
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+            }).save();
+        }
+
+        function exportToWord() {
+            if (!isPremium) {
+                showModal();
+                showAlert('Export to Word is a premium feature', 'warning');
+                return;
+            }
+            const content = document.getElementById('reportPreview').innerHTML;
+            const blob = new Blob([`
+                <html>
+                <head><meta charset="UTF-8"><title>Internship Report</title></head>
+                <body>${content}</body>
+                </html>
+            `], { type: 'application/msword' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `Internship_Report_${document.getElementById('studentName').value || 'Student'}.doc`;
+            link.click();
+            URL.revokeObjectURL(link.href);
+        }
+
+        // UI Helpers
+        function showAlert(message, type = 'info') {
+            const alert = document.createElement('div');
+            alert.className = 'alert';
+            alert.style.background = type === 'success' ? '#28a745' : type === 'warning' ? '#ffc107' : '#17a2b8';
+            alert.style.color = type === 'warning' ? '#1a2a3a' : 'white';
+            alert.innerText = message;
+            document.body.appendChild(alert);
+            setTimeout(() => alert.remove(), 3000);
+        }
+
+        function showModal() {
+            document.getElementById('premiumModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('premiumModal').classList.remove('active');
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/[&<>]/g, function(m) {
+                if (m === '&') return '&amp;';
+                if (m === '<') return '&lt;';
+                if (m === '>') return '&gt;';
+                return m;
+            });
+        }
+
+        // Pesapal payment (placeholder - integrate your actual endpoint)
+        function initPesapalPayment() {
+            const email = document.getElementById('studentName')?.value || 'student@example.com';
+            const name = document.getElementById('studentName')?.value || 'Student';
+            
+            showAlert('Pesapal integration ready. Add your Netlify function endpoint to process payment.', 'info');
+            // In production, uncomment and use your actual endpoint:
+            /*
+            fetch('/.netlify/functions/pesapal-submit-order', {
+                method: 'POST',
+                body: JSON.stringify({ amount: 25000, email, name })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.redirect_url) window.location.href = data.redirect_url;
+            });
+            */
+            
+            // For demo: Simulate successful payment
+            if (confirm('Demo: Click OK to simulate successful payment and unlock premium')) {
+                localStorage.setItem('premiumUnlocked', 'true');
+                localStorage.removeItem('trialEnds');
+                isPremium = true;
+                updatePremiumUI();
+                closeModal();
+                showAlert('Premium unlocked! (Demo mode)', 'success');
+                renderLogbook();
+            }
+        }
+
+        // Event listeners
+        document.getElementById('addLogBtn').onclick = addLogEntry;
+        document.getElementById('generateReportBtn').onclick = generateReport;
+        document.getElementById('exportPDFBtn').onclick = exportToPDF;
+        document.getElementById('exportWordBtn').onclick = exportToWord;
+        document.getElementById('upgradeHeaderBtn').onclick = showModal;
+        document.getElementById('upgradeFromLimitBtn').onclick = showModal;
+        document.getElementById('payWithPesapalBtn').onclick = initPesapalPayment;
+        document.getElementById('startTrialBtn').onclick = startFreeTrial;
+        document.getElementById('closeModalBtn').onclick = closeModal;
+
+        // Auto-save on input changes
+        const inputs = ['studentName', 'studentId', 'university', 'programme', 'supervisor', 'orgName', 'department', 'orgLocation', 'workSupervisor', 'startDate', 'endDate'];
+        inputs.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.onchange = () => saveData();
+        });
+
+        // Initialize
+        loadData();
+        
+        // Load html2pdf for export
+        const script = document.createElement('script');
+        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js';
+        document.head.appendChild(script);
+    </script>
 </body>
 </html>
