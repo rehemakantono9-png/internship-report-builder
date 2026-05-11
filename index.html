@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Remmie Komm Hub - Universal Internship Report Builder</title>
+    <title>Remmie Komm Hub - Professional Internship Report Builder</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Times New Roman', Georgia, serif; background: #e8e8e8; color: #1a1a1a; line-height: 1.5; }
@@ -28,7 +28,7 @@
         .btn-outline { background: transparent; border: 2px solid #1a4a6f; color: #1a4a6f; }
         .btn-outline:hover { background: #1a4a6f; color: white; }
         .button-group { display: flex; justify-content: space-between; margin-top: 1rem; gap: 0.5rem; }
-        .add-btn { background: #28a745; color: white; width: 100%; margin-top: 0.5rem; }
+        .add-btn { background: #28a745; color: white; width: 100%; margin-top: 0.5rem; border: none; padding: 0.6rem; border-radius: 6px; cursor: pointer; font-weight: bold; }
         .remove-btn { background: #dc3545; color: white; border: none; padding: 0.3rem 0.6rem; border-radius: 4px; cursor: pointer; font-size: 0.7rem; }
         .entry-card { background: #f9f9f9; border: 1px solid #eee; border-radius: 8px; padding: 1rem; margin-bottom: 1rem; }
         .step { display: none; }
@@ -44,13 +44,12 @@
         .warning { background: #ffc107; color: #1a2a3a; }
         .test-mode-container { display: inline-flex; align-items: center; gap: 0.3rem; background: rgba(255,255,255,0.2); padding: 0.2rem 0.6rem; border-radius: 20px; }
         .test-mode-container input { width: auto; margin: 0; transform: scale(0.8); }
-        .programme-badge { background: #e8f4f0; padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.7rem; margin-left: 0.5rem; }
     </style>
 </head>
 <body>
     <div class="header">
         <h1>
-            <span>🔷 Remmie Komm Hub - Universal Internship Report Builder</span>
+            <span>🔷 Remmie Komm Hub - Professional Internship Report Builder</span>
             <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
                 <label class="test-mode-container">
                     <input type="checkbox" id="testModeCheckbox"> 🧪 Test Mode
@@ -68,7 +67,7 @@
             <!-- Step 1: Basic Information -->
             <div id="step1" class="step active">
                 <div class="card">
-                    <h2>📋 Basic Information (Same for Everyone)</h2>
+                    <h2>📋 Basic Information</h2>
                     <label>Full Name</label>
                     <input type="text" id="studentName" placeholder="e.g., Nantabo Najuwa Mwenyi">
                     <label>Registration Number</label>
@@ -80,7 +79,7 @@
                     <label>Department</label>
                     <input type="text" id="department" placeholder="e.g., Mass Communication / Education / Law">
                     <label>Programme of Study</label>
-                    <input type="text" id="programme" placeholder="e.g., Bachelor of Mass Communication, Bachelor of Education">
+                    <input type="text" id="programme" placeholder="e.g., Bachelor of Mass Communication">
                     <label>Academic Supervisor Name</label>
                     <input type="text" id="academicSupervisor" placeholder="e.g., Dr. John Mukasa">
                     <label>Internship Start Date</label>
@@ -88,7 +87,7 @@
                     <label>Internship End Date</label>
                     <input type="date" id="endDate">
                     <div class="button-group">
-                        <button class="btn next-btn" onclick="nextStep()">Next →</button>
+                        <button class="btn" onclick="nextStep()">Next →</button>
                     </div>
                 </div>
             </div>
@@ -98,7 +97,7 @@
                 <div class="card">
                     <h2>🏢 Organization Information</h2>
                     <label>Organization Name</label>
-                    <input type="text" id="orgName" placeholder="e.g., IUIU FM, Kitante Primary School, Mulago Hospital">
+                    <input type="text" id="orgName" placeholder="e.g., IUIU FM, Kitante Primary School">
                     <label>Organization Type</label>
                     <select id="orgType">
                         <option value="">Select organization type</option>
@@ -120,13 +119,13 @@
                     <label>Supervisor Position</label>
                     <input type="text" id="supervisorPosition" placeholder="e.g., News Editor, Head Teacher">
                     <div class="button-group">
-                        <button class="btn prev-btn" onclick="prevStep()">← Back</button>
-                        <button class="btn next-btn" onclick="nextStep()">Next →</button>
+                        <button class="btn" onclick="prevStep()">← Back</button>
+                        <button class="btn" onclick="nextStep()">Next →</button>
                     </div>
                 </div>
             </div>
 
-            <!-- Step 3: Organization Background (Student describes) -->
+            <!-- Step 3: Organization Background -->
             <div id="step3" class="step">
                 <div class="card">
                     <h2>📜 About the Organization</h2>
@@ -136,23 +135,23 @@
                     <label>Vision (if known)</label>
                     <input type="text" id="orgVision" placeholder="e.g., To be a leading media house...">
                     <label>Mission (if known)</label>
-                    <input type="text" id="orgMission" placeholder="e.g., To provide quality information to the community...">
+                    <input type="text" id="orgMission" placeholder="e.g., To provide quality information...">
                     <label>Core Values</label>
-                    <input type="text" id="orgValues" placeholder="e.g., Professionalism, Integrity, Community service">
+                    <input type="text" id="orgValues" placeholder="e.g., Professionalism, Integrity">
                     <div class="button-group">
-                        <button class="btn prev-btn" onclick="prevStep()">← Back</button>
-                        <button class="btn next-btn" onclick="nextStep()">Next →</button>
+                        <button class="btn" onclick="prevStep()">← Back</button>
+                        <button class="btn" onclick="nextStep()">Next →</button>
                     </div>
                 </div>
             </div>
 
-            <!-- Step 4: Department/Unit & Staff -->
+            <!-- Step 4: Department & Staff -->
             <div id="step4" class="step">
                 <div class="card">
-                    <h2>👥 Department & People You Worked With</h2>
+                    <h2>👥 Department & People</h2>
                     <label>Department/Unit of Attachment</label>
-                    <input type="text" id="deptName" placeholder="e.g., News Department, Primary Section, IT Support">
-                    <label>Department Head/Supervisor</label>
+                    <input type="text" id="deptName" placeholder="e.g., News Department, Primary Section">
+                    <label>Department Head</label>
                     <input type="text" id="deptHead" placeholder="e.g., Mr. Kabigi Rashid">
                     <label>Role of the Department</label>
                     <textarea id="deptRole" rows="2" placeholder="Describe what this department does..."></textarea>
@@ -162,44 +161,44 @@
                     <label>Role of Your Workplace Supervisor</label>
                     <textarea id="supervisorRole" rows="2" placeholder="Describe how your supervisor guided you..."></textarea>
                     <div class="button-group">
-                        <button class="btn prev-btn" onclick="prevStep()">← Back</button>
-                        <button class="btn next-btn" onclick="nextStep()">Next →</button>
+                        <button class="btn" onclick="prevStep()">← Back</button>
+                        <button class="btn" onclick="nextStep()">Next →</button>
                     </div>
                 </div>
             </div>
 
-            <!-- Step 5: Daily Activities - THE CORE (Student describes in their own words) -->
+            <!-- Step 5: Daily Activities -->
             <div id="step5" class="step">
                 <div class="card">
-                    <h2>📓 Daily Activities & Tasks</h2>
-                    <p class="helper-text">Describe what you did each day or week. Write in YOUR own words - AI will make it professional. Be specific about tasks, skills, and challenges.</p>
+                    <h2>📓 Daily Activities</h2>
+                    <p class="helper-text">Describe what you did. Write in YOUR own words - AI will make it professional.</p>
                     <div id="logbookList"></div>
                     <button class="add-btn" onclick="addLogEntry()">+ Add Activity</button>
                     <div class="button-group">
-                        <button class="btn prev-btn" onclick="prevStep()">← Back</button>
-                        <button class="btn next-btn" onclick="nextStep()">Next →</button>
+                        <button class="btn" onclick="prevStep()">← Back</button>
+                        <button class="btn" onclick="nextStep()">Next →</button>
                     </div>
                 </div>
             </div>
 
-            <!-- Step 6: Skills, Learning & Challenges -->
+            <!-- Step 6: Skills & Challenges -->
             <div id="step6" class="step">
                 <div class="card">
-                    <h2>💪 Skills, Learning & Challenges</h2>
+                    <h2>💪 Skills & Challenges</h2>
                     <label>What Knowledge Did You Gain?</label>
                     <textarea id="knowledgeGained" rows="3" placeholder="Describe what you learned..."></textarea>
                     <label>What Skills Did You Develop?</label>
-                    <input type="text" id="skillsGained" placeholder="e.g., Communication, Leadership, Teaching, Reporting...">
-                    <label>Theories or Concepts from Class That Applied</label>
+                    <input type="text" id="skillsGained" placeholder="e.g., Communication, Leadership, Teaching">
+                    <label>Theories from Class That Applied</label>
                     <div id="theoriesList"></div>
-                    <button class="add-btn" onclick="addTheory()">+ Add Theory/Concept</button>
-                    <label>How Did You Contribute to the Organization?</label>
+                    <button class="add-btn" onclick="addTheory()">+ Add Theory</button>
+                    <label>How Did You Contribute?</label>
                     <textarea id="personalContribution" rows="2" placeholder="Describe your contribution..."></textarea>
-                    <label>Challenges You Faced & How You Overcame Them</label>
-                    <textarea id="challengeSolutions" rows="3" placeholder="Describe challenges inside and outside the organization, and how you solved them..."></textarea>
+                    <label>Challenges & How You Overcame Them</label>
+                    <textarea id="challengeSolutions" rows="3" placeholder="Describe challenges and solutions..."></textarea>
                     <div class="button-group">
-                        <button class="btn prev-btn" onclick="prevStep()">← Back</button>
-                        <button class="btn next-btn" onclick="nextStep()">Next →</button>
+                        <button class="btn" onclick="prevStep()">← Back</button>
+                        <button class="btn" onclick="nextStep()">Next →</button>
                     </div>
                 </div>
             </div>
@@ -208,15 +207,15 @@
             <div id="step7" class="step">
                 <div class="card">
                     <h2>📝 Recommendations</h2>
-                    <label>Recommendations to Your University</label>
-                    <textarea id="recUniversity" rows="2" placeholder="What should your university improve about internships?"></textarea>
-                    <label>Recommendations to the Host Organization</label>
+                    <label>To Your University</label>
+                    <textarea id="recUniversity" rows="2" placeholder="What should your university improve?"></textarea>
+                    <label>To the Host Organization</label>
                     <textarea id="recOrganization" rows="2" placeholder="What should the organization improve?"></textarea>
-                    <label>Recommendations to Future Students</label>
-                    <textarea id="recStudents" rows="2" placeholder="What advice would you give to future interns?"></textarea>
+                    <label>To Future Students</label>
+                    <textarea id="recStudents" rows="2" placeholder="What advice would you give?"></textarea>
                     <div class="button-group">
-                        <button class="btn prev-btn" onclick="prevStep()">← Back</button>
-                        <button class="btn next-btn" onclick="nextStep()">Next →</button>
+                        <button class="btn" onclick="prevStep()">← Back</button>
+                        <button class="btn" onclick="nextStep()">Next →</button>
                     </div>
                 </div>
             </div>
@@ -225,12 +224,12 @@
             <div id="step8" class="step">
                 <div class="card">
                     <h2>🤖 Generate Your Report</h2>
-                    <p class="helper-text">AI will transform your raw notes into a professional internship report.</p>
+                    <p class="helper-text">AI will transform your notes into a professional internship report.</p>
                     <button id="grammarFixBtn" class="btn btn-outline" style="width:100%; margin-bottom:0.5rem;">🔧 Enhance & Professionalize All Content</button>
                     <button id="generateReportBtn" class="btn" style="width:100%; padding:0.8rem; background:#28a745;">✨ AI Generate Complete Report</button>
                     <div id="generationStatus" style="margin-top:1rem;"></div>
                     <div class="button-group">
-                        <button class="btn prev-btn" onclick="prevStep()">← Back</button>
+                        <button class="btn" onclick="prevStep()">← Back</button>
                     </div>
                 </div>
             </div>
@@ -268,9 +267,8 @@
 
     <script>
         // ========================================
-        // UNIVERSAL INTERNSHIP REPORT BUILDER
+        // PROFESSIONAL INTERNSHIP REPORT BUILDER
         // Works for ANY programme, ANY university
-        // Student writes in own words → AI professionalizes
         // ========================================
 
         let isPremium = localStorage.getItem('premiumUnlocked') === 'true';
@@ -281,79 +279,39 @@
         let staffEntries = [];
         let theoryEntries = [];
 
-        // ========================================
-        // AI TEXT ENHANCER (Professionalizes student writing)
-        // ========================================
-
-        function enhanceText(text) {
-            if (!text || typeof text !== 'string') return text || '';
-            let enhanced = text;
-
-            // Basic grammar fixes
-            const fixes = {
-                /\bi\b/g: 'I',
-                /\bmy\s+self\b/gi: 'myself',
-                /\bwanna\b/gi: 'want to',
-                /\bgonna\b/gi: 'going to',
-                /\bthru\b/gi: 'through',
-                /\btho\b/gi: 'though',
-                /\bcuz\b/gi: 'because',
-                /\bu\b/gi: 'you',
-                /\bppl\b/gi: 'people'
-            };
-            for (const [pattern, replacement] of Object.entries(fixes)) {
-                enhanced = enhanced.replace(new RegExp(pattern, 'g'), replacement);
-            }
-
-            // Professionalize common student phrases
-            const professionalizations = [
-                { from: /\bhelped\s+with\b/gi, to: 'supported' },
-                { from: /\bdid\s+work\b/gi, to: 'performed tasks' },
-                { from: /\blearned\s+how\s+to\b/gi, to: 'acquired competency in' },
-                { from: /\bwas\s+told\s+to\b/gi, to: 'was assigned to' },
-                { from: /\bhad\s+to\b/gi, to: 'was responsible for' },
-                { from: /\bgot\s+to\b/gi, to: 'had the opportunity to' },
-                { from: /\btaught\s+students\b/gi, to: 'delivered instruction to learners' },
-                { from: /\bwrote\s+stories\b/gi, to: 'authored news articles' },
-                { from: /\bfixed\s+computers\b/gi, to: 'performed technical troubleshooting' },
-                { from: /\banswered\s+phones\b/gi, to: 'managed incoming calls' }
-            ];
-            for (const p of professionalizations) {
-                enhanced = enhanced.replace(p.from, p.to);
-            }
-
-            // Capitalize sentences
-            enhanced = enhanced.replace(/([.!?])\s*([a-z])/g, (match, p1, p2) => p1 + ' ' + p2.toUpperCase());
-            enhanced = enhanced.charAt(0).toUpperCase() + enhanced.slice(1);
-            
-            return enhanced;
-        }
-
-        function enhanceAllContent() {
-            const fields = ['knowledgeGained', 'personalContribution', 'challengeSolutions', 'recUniversity', 'recOrganization', 'recStudents', 'orgHistory', 'deptRole', 'supervisorRole'];
-            fields.forEach(id => {
-                const field = document.getElementById(id);
-                if (field && field.value) field.value = enhanceText(field.value);
-            });
-            
-            logbookEntries.forEach((entry, idx) => {
-                if (entry.description) logbookEntries[idx].description = enhanceText(entry.description);
-                if (entry.skills) logbookEntries[idx].skills = enhanceText(entry.skills);
-                if (entry.challenges) logbookEntries[idx].challenges = enhanceText(entry.challenges);
-            });
-            
-            renderLogbookList();
+        // Navigation functions - FIXED
+        window.nextStep = function() {
             saveData();
-            showAlert('✨ Content enhanced and professionalized!', 'success');
+            if (currentStep < 8) {
+                document.getElementById('step' + currentStep).classList.remove('active');
+                currentStep++;
+                document.getElementById('step' + currentStep).classList.add('active');
+                updateProgressBar();
+            }
+        };
+
+        window.prevStep = function() {
+            saveData();
+            if (currentStep > 1) {
+                document.getElementById('step' + currentStep).classList.remove('active');
+                currentStep--;
+                document.getElementById('step' + currentStep).classList.add('active');
+                updateProgressBar();
+            }
+        };
+
+        function updateProgressBar() {
+            const percent = (currentStep / 8) * 100;
+            document.getElementById('progressBar').style.width = percent + '%';
+            document.getElementById('stepIndicator').innerText = 'Step ' + currentStep + ' of 8';
         }
 
-        // ========================================
-        // DATA MANAGEMENT
-        // ========================================
-
+        // Save/Load Data
         function saveData() {
-            const data = { 
-                logbookEntries, staffEntries, theoryEntries,
+            const data = {
+                logbookEntries: logbookEntries,
+                staffEntries: staffEntries,
+                theoryEntries: theoryEntries,
                 studentName: document.getElementById('studentName').value,
                 studentId: document.getElementById('studentId').value,
                 university: document.getElementById('university').value,
@@ -400,8 +358,8 @@
                     'orgHistory', 'orgVision', 'orgMission', 'orgValues', 'deptName', 'deptHead', 'deptRole', 'supervisorRole',
                     'knowledgeGained', 'skillsGained', 'personalContribution', 'challengeSolutions',
                     'recUniversity', 'recOrganization', 'recStudents'];
-                fields.forEach(id => {
-                    const el = document.getElementById(id);
+                fields.forEach(function(id) {
+                    var el = document.getElementById(id);
                     if (el && data[id]) el.value = data[id];
                 });
             }
@@ -423,61 +381,121 @@
             });
         }
 
-        // Navigation
-        function nextStep() { saveData(); if (currentStep < 8) { document.getElementById(`step${currentStep}`).classList.remove('active'); currentStep++; document.getElementById(`step${currentStep}`).classList.add('active'); updateProgressBar(); } }
-        function prevStep() { saveData(); if (currentStep > 1) { document.getElementById(`step${currentStep}`).classList.remove('active'); currentStep--; document.getElementById(`step${currentStep}`).classList.add('active'); updateProgressBar(); } }
-        function updateProgressBar() { const percent = (currentStep / 8) * 100; document.getElementById('progressBar').style.width = `${percent}%`; document.getElementById('stepIndicator').innerText = `Step ${currentStep} of 8`; }
+        // Auto-correct / Enhance Text
+        function enhanceText(text) {
+            if (!text || typeof text !== 'string') return text || '';
+            let enhanced = text;
+
+            var fixes = {
+                /\bi\b/g: 'I',
+                /\bmy\s+self\b/gi: 'myself',
+                /\bwanna\b/gi: 'want to',
+                /\bgonna\b/gi: 'going to',
+                /\bthru\b/gi: 'through',
+                /\bcuz\b/gi: 'because',
+                /\bu\b/g: 'you',
+                /\bppl\b/gi: 'people',
+                /\bhelped\s+with\b/gi: 'supported',
+                /\bdid\s+work\b/gi: 'performed tasks',
+                /\blearned\s+how\s+to\b/gi: 'acquired competency in',
+                /\bwas\s+told\s+to\b/gi: 'was assigned to',
+                /\bhad\s+to\b/gi: 'was responsible for',
+                /\bgot\s+to\b/gi: 'had the opportunity to',
+                /\btaught\s+students\b/gi: 'delivered instruction to learners',
+                /\bwrote\s+stories\b/gi: 'authored news articles',
+                /\bfixed\s+computers\b/gi: 'performed technical troubleshooting',
+                /\banswered\s+phones\b/gi: 'managed incoming calls'
+            };
+            for (var pattern in fixes) {
+                var regex = new RegExp(pattern, 'g');
+                enhanced = enhanced.replace(regex, fixes[pattern]);
+            }
+
+            enhanced = enhanced.replace(/([.!?])\s*([a-z])/g, function(match, p1, p2) { return p1 + ' ' + p2.toUpperCase(); });
+            enhanced = enhanced.charAt(0).toUpperCase() + enhanced.slice(1);
+            return enhanced;
+        }
+
+        window.enhanceAllContent = function() {
+            var fields = ['knowledgeGained', 'personalContribution', 'challengeSolutions', 'recUniversity', 'recOrganization', 'recStudents', 'orgHistory', 'deptRole', 'supervisorRole'];
+            for (var i = 0; i < fields.length; i++) {
+                var field = document.getElementById(fields[i]);
+                if (field && field.value) field.value = enhanceText(field.value);
+            }
+            
+            for (var j = 0; j < logbookEntries.length; j++) {
+                if (logbookEntries[j].description) logbookEntries[j].description = enhanceText(logbookEntries[j].description);
+                if (logbookEntries[j].skills) logbookEntries[j].skills = enhanceText(logbookEntries[j].skills);
+                if (logbookEntries[j].challenges) logbookEntries[j].challenges = enhanceText(logbookEntries[j].challenges);
+            }
+            
+            renderLogbookList();
+            saveData();
+            showAlert('✨ Content enhanced and professionalized!', 'success');
+        };
 
         // Staff Management
-        function addStaff() { staffEntries.push({ name: '', position: '', responsibilities: '' }); renderStaffList(); }
-        function updateStaff(idx, field, val) { staffEntries[idx][field] = val; saveData(); }
-        function removeStaff(idx) { staffEntries.splice(idx, 1); renderStaffList(); }
+        window.addStaff = function() { staffEntries.push({ name: '', position: '', responsibilities: '' }); renderStaffList(); };
+        window.updateStaff = function(idx, field, val) { staffEntries[idx][field] = val; saveData(); };
+        window.removeStaff = function(idx) { staffEntries.splice(idx, 1); renderStaffList(); };
+        
         function renderStaffList() {
-            const container = document.getElementById('staffList');
+            var container = document.getElementById('staffList');
             if (!container) return;
-            container.innerHTML = staffEntries.map((s, i) => `
-                <div class="entry-card">
-                    <input type="text" placeholder="Name" value="${escapeHtml(s.name)}" onchange="updateStaff(${i}, 'name', this.value)">
-                    <input type="text" placeholder="Position" value="${escapeHtml(s.position)}" onchange="updateStaff(${i}, 'position', this.value)" style="margin-top:0.5rem;">
-                    <textarea placeholder="Responsibilities" rows="2" onchange="updateStaff(${i}, 'responsibilities', this.value)">${escapeHtml(s.responsibilities)}</textarea>
-                    <button class="remove-btn" onclick="removeStaff(${i})">Remove</button>
-                </div>
-            `).join('');
+            var html = '';
+            for (var i = 0; i < staffEntries.length; i++) {
+                var s = staffEntries[i];
+                html += '<div class="entry-card">' +
+                    '<input type="text" placeholder="Name" value="' + escapeHtml(s.name) + '" onchange="updateStaff(' + i + ', \'name\', this.value)">' +
+                    '<input type="text" placeholder="Position" value="' + escapeHtml(s.position) + '" onchange="updateStaff(' + i + ', \'position\', this.value)" style="margin-top:0.5rem;">' +
+                    '<textarea placeholder="Responsibilities" rows="2" onchange="updateStaff(' + i + ', \'responsibilities\', this.value)">' + escapeHtml(s.responsibilities) + '</textarea>' +
+                    '<button class="remove-btn" onclick="removeStaff(' + i + ')">Remove</button>' +
+                    '</div>';
+            }
+            container.innerHTML = html;
         }
 
         // Logbook Management
-        function addLogEntry() { logbookEntries.push({ date: '', activity: '', description: '', skills: '', challenges: '' }); renderLogbookList(); }
-        function updateLogEntry(idx, field, val) { logbookEntries[idx][field] = val; saveData(); }
-        function removeLogEntry(idx) { logbookEntries.splice(idx, 1); renderLogbookList(); }
+        window.addLogEntry = function() { logbookEntries.push({ date: '', activity: '', description: '', skills: '', challenges: '' }); renderLogbookList(); };
+        window.updateLogEntry = function(idx, field, val) { logbookEntries[idx][field] = val; saveData(); };
+        window.removeLogEntry = function(idx) { logbookEntries.splice(idx, 1); renderLogbookList(); };
+        
         function renderLogbookList() {
-            const container = document.getElementById('logbookList');
+            var container = document.getElementById('logbookList');
             if (!container) return;
-            container.innerHTML = logbookEntries.map((e, i) => `
-                <div class="entry-card">
-                    <input type="date" value="${e.date}" onchange="updateLogEntry(${i}, 'date', this.value)">
-                    <input type="text" placeholder="Activity/Task Title" value="${escapeHtml(e.activity)}" onchange="updateLogEntry(${i}, 'activity', this.value)" style="margin-top:0.5rem;">
-                    <textarea placeholder="Describe what you did (your own words - AI will professionalize it)" rows="3" onchange="updateLogEntry(${i}, 'description', this.value)">${escapeHtml(e.description)}</textarea>
-                    <input type="text" placeholder="Skills developed" value="${escapeHtml(e.skills)}" onchange="updateLogEntry(${i}, 'skills', this.value)">
-                    <textarea placeholder="Challenges faced & solutions" rows="2" onchange="updateLogEntry(${i}, 'challenges', this.value)">${escapeHtml(e.challenges)}</textarea>
-                    <button class="remove-btn" onclick="removeLogEntry(${i})">Remove</button>
-                </div>
-            `).join('');
+            var html = '';
+            for (var i = 0; i < logbookEntries.length; i++) {
+                var e = logbookEntries[i];
+                html += '<div class="entry-card">' +
+                    '<input type="date" value="' + e.date + '" onchange="updateLogEntry(' + i + ', \'date\', this.value)">' +
+                    '<input type="text" placeholder="Activity/Task Title" value="' + escapeHtml(e.activity) + '" onchange="updateLogEntry(' + i + ', \'activity\', this.value)" style="margin-top:0.5rem;">' +
+                    '<textarea placeholder="Describe what you did (your own words - AI will professionalize it)" rows="3" onchange="updateLogEntry(' + i + ', \'description\', this.value)">' + escapeHtml(e.description) + '</textarea>' +
+                    '<input type="text" placeholder="Skills developed" value="' + escapeHtml(e.skills) + '" onchange="updateLogEntry(' + i + ', \'skills\', this.value)">' +
+                    '<textarea placeholder="Challenges faced & solutions" rows="2" onchange="updateLogEntry(' + i + ', \'challenges\', this.value)">' + escapeHtml(e.challenges) + '</textarea>' +
+                    '<button class="remove-btn" onclick="removeLogEntry(' + i + ')">Remove</button>' +
+                    '</div>';
+            }
+            container.innerHTML = html;
         }
 
         // Theories Management
-        function addTheory() { theoryEntries.push({ name: '', explanation: '' }); renderTheoriesList(); }
-        function updateTheory(idx, field, val) { theoryEntries[idx][field] = val; saveData(); }
-        function removeTheory(idx) { theoryEntries.splice(idx, 1); renderTheoriesList(); }
+        window.addTheory = function() { theoryEntries.push({ name: '', explanation: '' }); renderTheoriesList(); };
+        window.updateTheory = function(idx, field, val) { theoryEntries[idx][field] = val; saveData(); };
+        window.removeTheory = function(idx) { theoryEntries.splice(idx, 1); renderTheoriesList(); };
+        
         function renderTheoriesList() {
-            const container = document.getElementById('theoriesList');
+            var container = document.getElementById('theoriesList');
             if (!container) return;
-            container.innerHTML = theoryEntries.map((t, i) => `
-                <div class="entry-card">
-                    <input type="text" placeholder="Theory/Concept Name" value="${escapeHtml(t.name)}" onchange="updateTheory(${i}, 'name', this.value)">
-                    <textarea placeholder="How this applied to your internship" rows="2" onchange="updateTheory(${i}, 'explanation', this.value)">${escapeHtml(t.explanation)}</textarea>
-                    <button class="remove-btn" onclick="removeTheory(${i})">Remove</button>
-                </div>
-            `).join('');
+            var html = '';
+            for (var i = 0; i < theoryEntries.length; i++) {
+                var t = theoryEntries[i];
+                html += '<div class="entry-card">' +
+                    '<input type="text" placeholder="Theory/Concept Name" value="' + escapeHtml(t.name) + '" onchange="updateTheory(' + i + ', \'name\', this.value)">' +
+                    '<textarea placeholder="How this applied to your internship" rows="2" onchange="updateTheory(' + i + ', \'explanation\', this.value)">' + escapeHtml(t.explanation) + '</textarea>' +
+                    '<button class="remove-btn" onclick="removeTheory(' + i + ')">Remove</button>' +
+                    '</div>';
+            }
+            container.innerHTML = html;
         }
 
         // Premium Functions
@@ -485,39 +503,41 @@
             if (trialEnds && new Date() < new Date(trialEnds)) { isPremium = true; localStorage.setItem('premiumUnlocked', 'true'); }
             updatePremiumUI();
         }
-        function startFreeTrial() {
-            const trialEnd = new Date(); trialEnd.setDate(trialEnd.getDate() + 7);
+        
+        window.startFreeTrial = function() {
+            var trialEnd = new Date(); trialEnd.setDate(trialEnd.getDate() + 7);
             localStorage.setItem('trialEnds', trialEnd.toISOString());
             localStorage.setItem('premiumUnlocked', 'true');
             isPremium = true;
             updatePremiumUI();
             closeModal();
             showAlert('7-day free trial started!', 'success');
-        }
+        };
+        
         function updatePremiumUI() {
-            const span = document.getElementById('premiumStatus');
+            var span = document.getElementById('premiumStatus');
             if (isPremium) { span.innerHTML = '⭐ Premium Unlocked'; span.style.background = '#28a745'; }
             else { span.innerHTML = '⭐ Free Trial'; span.style.background = '#ffc107'; }
         }
 
         // Report Generation
-        function generateReport() {
+        window.generateReport = function() {
             if (!isPremium) { showModal(); showAlert('Upgrade to premium to generate report', 'warning'); return; }
             
-            const statusDiv = document.getElementById('generationStatus');
+            var statusDiv = document.getElementById('generationStatus');
             statusDiv.innerHTML = '<div style="background:#e8f4f0; padding:0.5rem;">🤖 AI generating your professional report...</div>';
             
-            setTimeout(() => {
-                const reportHTML = buildReport();
+            setTimeout(function() {
+                var reportHTML = buildReport();
                 document.getElementById('reportContent').innerHTML = reportHTML;
                 generatedReport = reportHTML;
                 statusDiv.innerHTML = '<div style="background:#d4edda; padding:0.5rem;">✅ Report generated! Export to PDF.</div>';
                 showAlert('Report ready!', 'success');
             }, 500);
-        }
+        };
 
         function buildReport() {
-            const p = {
+            var p = {
                 name: document.getElementById('studentName').value || 'Student Name',
                 id: document.getElementById('studentId').value || 'Registration',
                 uni: document.getElementById('university').value || 'University',
@@ -528,7 +548,6 @@
                 start: document.getElementById('startDate').value || '',
                 end: document.getElementById('endDate').value || '',
                 org: document.getElementById('orgName').value || 'Organization',
-                orgType: document.getElementById('orgType').options[document.getElementById('orgType').selectedIndex]?.text || '',
                 orgAddr: document.getElementById('orgAddress').value || '',
                 workSup: document.getElementById('workSupervisor').value || 'Supervisor',
                 supPos: document.getElementById('supervisorPosition').value || '',
@@ -549,44 +568,57 @@
                 recStud: enhanceText(document.getElementById('recStudents').value) || ''
             };
             
-            const formatDate = (d) => { if (!d) return ''; return new Date(d).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }); };
-            const currentDate = new Date().toLocaleDateString('en-GB');
+            function formatDate(d) { if (!d) return ''; var date = new Date(d); return date.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }); }
+            var currentDate = new Date().toLocaleDateString('en-GB');
             
-            let activitiesHtml = '';
-            logbookEntries.forEach(entry => {
+            var activitiesHtml = '';
+            for (var i = 0; i < logbookEntries.length; i++) {
+                var entry = logbookEntries[i];
                 if (entry.activity) {
-                    activitiesHtml += `<div style="margin-bottom:1.5rem;"><h4>${entry.date || 'Date'}: ${enhanceText(entry.activity)}</h4><p>${enhanceText(entry.description || '')}</p>${entry.skills ? `<p><strong>Skills:</strong> ${enhanceText(entry.skills)}</p>` : ''}${entry.challenges ? `<p><strong>Challenges:</strong> ${enhanceText(entry.challenges)}</p>` : ''}</div>`;
+                    activitiesHtml += '<div style="margin-bottom:1.5rem;"><h4>' + (entry.date || 'Date') + ': ' + enhanceText(entry.activity) + '</h4>' +
+                        '<p>' + enhanceText(entry.description || '') + '</p>' +
+                        (entry.skills ? '<p><strong>Skills:</strong> ' + enhanceText(entry.skills) + '</p>' : '') +
+                        (entry.challenges ? '<p><strong>Challenges:</strong> ' + enhanceText(entry.challenges) + '</p>' : '') +
+                        '</div>';
                 }
-            });
+            }
             
-            let theoriesHtml = '';
-            theoryEntries.forEach(t => { if (t.name) theoriesHtml += `<p><strong>${enhanceText(t.name)}:</strong> ${enhanceText(t.explanation)}</p>`; });
+            var theoriesHtml = '';
+            for (var j = 0; j < theoryEntries.length; j++) {
+                var t = theoryEntries[j];
+                if (t.name) theoriesHtml += '<p><strong>' + enhanceText(t.name) + ':</strong> ' + enhanceText(t.explanation) + '</p>';
+            }
             
-            let staffHtml = '';
-            staffEntries.forEach(s => { if (s.name) staffHtml += `<li><strong>${enhanceText(s.name)}</strong> (${enhanceText(s.position)}): ${enhanceText(s.responsibilities)}</li>`; });
+            var staffHtml = '';
+            for (var k = 0; k < staffEntries.length; k++) {
+                var s = staffEntries[k];
+                if (s.name) staffHtml += '<li><strong>' + enhanceText(s.name) + '</strong> (' + enhanceText(s.position) + '): ' + enhanceText(s.responsibilities) + '</li>';
+            }
             
-            return `<div style="font-family:'Times New Roman',serif; line-height:1.5; max-width:800px; margin:0 auto;">
-                <div style="text-align:center; margin-bottom:2rem;"><h1>${p.uni}</h1><h2>${p.faculty}</h2><h3>INTERNSHIP REPORT AT ${p.org}</h3><h1 style="margin:2rem 0;">${p.name}</h1><p>${p.id}</p><p>Submitted to the Department of ${p.dept} in partial fulfillment of ${p.prog}</p><p>${currentDate}</p></div>
-                <div><h2>DECLARATION</h2><p>I, ${p.name}, declare that this report is my original work and has not been submitted elsewhere.</p><p>Signature: _________________ Date: ${currentDate}</p></div>
-                <div><h2>APPROVAL</h2><p>This report has been submitted with my approval.</p><p>University Supervisor: ${p.supervisor}</p><p>Agency Supervisor: ${p.workSup} (${p.supPos})</p></div>
-                <div><h2>ACKNOWLEDGEMENT</h2><p>I thank God, my supervisors ${p.supervisor} and ${p.workSup}, and all who supported me during this internship.</p></div>
-                <div><h2>CHAPTER ONE: INTRODUCTION</h2><h3>1.1 Background</h3><p>This internship at ${p.org} from ${formatDate(p.start)} to ${formatDate(p.end)} provided practical training in ${p.dept}.</p><h3>1.2 Objectives</h3><ul><li>Apply theoretical knowledge to practice</li><li>Gain professional work experience</li><li>Develop career competencies</li></ul><h3>1.3 Organization Background</h3><p>${p.org} is located at ${p.orgAddr}. ${p.history}</p><p><strong>Vision:</strong> ${p.vision}</p><p><strong>Mission:</strong> ${p.mission}</p><p><strong>Values:</strong> ${p.values}</p></div>
-                <div><h2>CHAPTER TWO: INTERNSHIP EXPERIENCE</h2><h3>2.1 Department</h3><p>Attached to ${p.deptName}, headed by ${p.deptHead}. ${p.deptRole}</p><h3>2.2 Activities</h3>${activitiesHtml || '<p>Activities recorded in logbook.</p>'}<h3>2.3 Staff Worked With</h3><ul>${staffHtml || '<li>Various staff members.</li>'}</ul><h3>2.4 Supervisor Role</h3><p>${p.supRole}</p></div>
-                <div><h2>CHAPTER THREE: FINDINGS</h2><h3>3.1 Knowledge Acquired</h3><p>${p.knowledge}</p><h3>3.2 Skills Developed</h3><p>${p.skills}</p>${theoriesHtml ? `<h3>3.3 Theories Applied</h3>${theoriesHtml}` : ''}<h3>3.4 Personal Contribution</h3><p>${p.contribution}</p><h3>3.5 Challenges</h3><p>${p.challenges}</p></div>
-                <div><h2>CHAPTER FOUR: CONCLUSION & RECOMMENDATIONS</h2><h3>4.1 Conclusion</h3><p>The internship at ${p.org} was valuable for professional development.</p><h3>4.2 Recommendations</h3><p><strong>To University:</strong> ${p.recUni || 'Strengthen pre-internship orientation.'}</p><p><strong>To Organization:</strong> ${p.recOrg || 'Provide structured mentorship.'}</p><p><strong>To Future Students:</strong> ${p.recStud || 'Be proactive and maintain a logbook.'}</p></div>
-                <div><h2>REFERENCES</h2><p>${p.uni} Internship Guidelines</p></div>
-            </div>`;
+            return '<div style="font-family:\'Times New Roman\',serif; line-height:1.5; max-width:800px; margin:0 auto;">' +
+                '<div style="text-align:center; margin-bottom:2rem;"><h1>' + p.uni + '</h1><h2>' + p.faculty + '</h2><h3>INTERNSHIP REPORT AT ' + p.org + '</h3><h1 style="margin:2rem 0;">' + p.name + '</h1><p>' + p.id + '</p><p>Submitted to the Department of ' + p.dept + ' in partial fulfillment of ' + p.prog + '</p><p>' + currentDate + '</p></div>' +
+                '<div><h2>DECLARATION</h2><p>I, ' + p.name + ', declare that this report is my original work and has not been submitted elsewhere.</p><p>Signature: _________________ Date: ' + currentDate + '</p></div>' +
+                '<div><h2>APPROVAL</h2><p>This report has been submitted with my approval.</p><p>University Supervisor: ' + p.supervisor + '</p><p>Agency Supervisor: ' + p.workSup + ' (' + p.supPos + ')</p></div>' +
+                '<div><h2>ACKNOWLEDGEMENT</h2><p>I thank God, my supervisors ' + p.supervisor + ' and ' + p.workSup + ', and all who supported me.</p></div>' +
+                '<div><h2>CHAPTER ONE: INTRODUCTION</h2><h3>1.1 Background</h3><p>This internship at ' + p.org + ' from ' + formatDate(p.start) + ' to ' + formatDate(p.end) + ' provided practical training in ' + p.dept + '.</p><h3>1.2 Objectives</h3><ul><li>Apply theoretical knowledge to practice</li><li>Gain professional work experience</li><li>Develop career competencies</li></ul><h3>1.3 Organization Background</h3><p>' + p.org + ' is located at ' + p.orgAddr + '. ' + p.history + '</p><p><strong>Vision:</strong> ' + p.vision + '</p><p><strong>Mission:</strong> ' + p.mission + '</p><p><strong>Values:</strong> ' + p.values + '</p></div>' +
+                '<div><h2>CHAPTER TWO: INTERNSHIP EXPERIENCE</h2><h3>2.1 Department</h3><p>Attached to ' + p.deptName + ', headed by ' + p.deptHead + '. ' + p.deptRole + '</p><h3>2.2 Activities</h3>' + (activitiesHtml || '<p>Activities recorded in logbook.</p>') + '<h3>2.3 Staff Worked With</h3><ul>' + (staffHtml || '<li>Various staff members.</li>') + '</ul><h3>2.4 Supervisor Role</h3><p>' + p.supRole + '</p></div>' +
+                '<div><h2>CHAPTER THREE: FINDINGS</h2><h3>3.1 Knowledge Acquired</h3><p>' + p.knowledge + '</p><h3>3.2 Skills Developed</h3><p>' + p.skills + '</p>' + (theoriesHtml ? '<h3>3.3 Theories Applied</h3>' + theoriesHtml : '') + '<h3>3.4 Personal Contribution</h3><p>' + p.contribution + '</p><h3>3.5 Challenges</h3><p>' + p.challenges + '</p></div>' +
+                '<div><h2>CHAPTER FOUR: CONCLUSION & RECOMMENDATIONS</h2><h3>4.1 Conclusion</h3><p>The internship at ' + p.org + ' was valuable for professional development.</p><h3>4.2 Recommendations</h3><p><strong>To University:</strong> ' + (p.recUni || 'Strengthen pre-internship orientation.') + '</p><p><strong>To Organization:</strong> ' + (p.recOrg || 'Provide structured mentorship.') + '</p><p><strong>To Future Students:</strong> ' + (p.recStud || 'Be proactive and maintain a logbook.') + '</p></div>' +
+                '<div><h2>REFERENCES</h2><p>' + p.uni + ' Internship Guidelines</p></div>' +
+                '</div>';
         }
 
-        function exportToPDF() {
+        // Export PDF
+        window.exportToPDF = function() {
             if (!isPremium) { showModal(); showAlert('Upgrade to export PDF', 'warning'); return; }
             if (!generatedReport) { showAlert('Generate report first', 'warning'); return; }
-            const el = document.getElementById('reportContent');
-            const name = document.getElementById('studentName').value || 'Student';
-            html2pdf().from(el).set({ margin: 0.5, filename: `Internship_Report_${name}.pdf`, html2canvas: { scale: 2 }, jsPDF: { unit: 'in', format: 'a4' } }).save();
-        }
+            var element = document.getElementById('reportContent');
+            var name = document.getElementById('studentName').value || 'Student';
+            html2pdf().from(element).set({ margin: 0.5, filename: 'Internship_Report_' + name + '.pdf', html2canvas: { scale: 2 }, jsPDF: { unit: 'in', format: 'a4' } }).save();
+        };
 
-        function initPayment() {
+        // Payment
+        window.initPayment = function() {
             if (document.getElementById('testModeCheckbox').checked) {
                 showAlert('🧪 TEST MODE: Premium unlocked!', 'success');
                 localStorage.setItem('premiumUnlocked', 'true');
@@ -596,8 +628,8 @@
                 return;
             }
             showAlert('Connecting to Pesapal...', 'info');
-            setTimeout(() => {
-                if (confirm('Demo: Simulate payment success?')) {
+            setTimeout(function() {
+                if (confirm('Demo: Simulate payment success?\n\nUse test card: 4000 0000 0000 0002')) {
                     localStorage.setItem('premiumUnlocked', 'true');
                     isPremium = true;
                     updatePremiumUI();
@@ -605,31 +637,29 @@
                     showAlert('Premium unlocked!', 'success');
                 }
             }, 500);
-        }
+        };
 
-        function showAlert(msg, type) { const a = document.createElement('div'); a.className = 'alert'; if(type==='warning') a.classList.add('warning'); a.innerText = msg; document.body.appendChild(a); setTimeout(() => a.remove(), 3000); }
+        function showAlert(msg, type) { var a = document.createElement('div'); a.className = 'alert'; if(type==='warning') a.classList.add('warning'); a.innerText = msg; document.body.appendChild(a); setTimeout(function() { a.remove(); }, 3000); }
         function showModal() { document.getElementById('premiumModal').classList.add('active'); }
         function closeModal() { document.getElementById('premiumModal').classList.remove('active'); }
-        function escapeHtml(s) { if (!s) return ''; return s.replace(/[&<>]/g, (m) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[m])); }
+        function escapeHtml(s) { if (!s) return ''; return s.replace(/[&<>]/g, function(m) { if (m === '&') return '&amp;'; if (m === '<') return '&lt;'; if (m === '>') return '&gt;'; return m; }); }
 
-        document.getElementById('generateReportBtn').onclick = generateReport;
-        document.getElementById('exportPDFBtn').onclick = exportToPDF;
-        document.getElementById('payBtn').onclick = initPayment;
-        document.getElementById('upgradeBtn').onclick = showModal;
-        document.getElementById('payWithPesapalBtn').onclick = initPayment;
-        document.getElementById('startTrialBtn').onclick = startFreeTrial;
-        document.getElementById('closeModalBtn').onclick = closeModal;
-        document.getElementById('grammarFixBtn').onclick = enhanceAllContent;
+        // Event listeners
+        document.getElementById('generateReportBtn').onclick = function() { generateReport(); };
+        document.getElementById('exportPDFBtn').onclick = function() { exportToPDF(); };
+        document.getElementById('payBtn').onclick = function() { initPayment(); };
+        document.getElementById('upgradeBtn').onclick = function() { showModal(); };
+        document.getElementById('payWithPesapalBtn').onclick = function() { initPayment(); };
+        document.getElementById('startTrialBtn').onclick = function() { startFreeTrial(); };
+        document.getElementById('closeModalBtn').onclick = function() { closeModal(); };
+        document.getElementById('grammarFixBtn').onclick = function() { enhanceAllContent(); };
 
+        // Load html2pdf and data
+        var scriptTag = document.createElement('script');
+        scriptTag.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js';
+        document.head.appendChild(scriptTag);
+        
         loadData();
-        const s = document.createElement('script');
-        s.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js';
-        document.head.appendChild(s);
-
-        window.nextStep = nextStep; window.prevStep = prevStep;
-        window.addStaff = addStaff; window.updateStaff = updateStaff; window.removeStaff = removeStaff;
-        window.addLogEntry = addLogEntry; window.updateLogEntry = updateLogEntry; window.removeLogEntry = removeLogEntry;
-        window.addTheory = addTheory; window.updateTheory = updateTheory; window.removeTheory = removeTheory;
     </script>
 </body>
 </html>
